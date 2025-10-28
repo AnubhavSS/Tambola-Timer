@@ -108,19 +108,21 @@ const styles = StyleSheet.create({
   container: {
    display:"flex",
    flexDirection:"row",
-   width:wp('100%'),
-    marginBottom:hp('2%'),
+  //  width:wp('100%'),
+  marginBottom:hp('5%'),
+  marginHorizontal:wp('4%'),
+   
     gap:wp('5%'),
-    marginHorizontal:wp('4%'),
+   
      },
    leftPart:{
     display:"flex",
     flexDirection:"column",
     width:wp('30%'),
-    height:hp('90%'),
+    height:hp('85%'),
     alignItems:"center",
     justifyContent:"center",
-    gap:hp('4%'),
+    gap:hp('0.5%'),
    }
 
    }

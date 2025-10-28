@@ -25,6 +25,10 @@ interface TimerState {
   showPreviousModal: boolean;   // State to show/hide previous modal
   setShowPreviousModal: () => void; // Function to set showPreviousModal state
   resetStore: () => void;
+  gridLayout: {
+    numColumns: number;
+    cellSize: number;
+  }
 }
 
 /**
@@ -76,4 +80,8 @@ export const useTimerStore = create<TimerState>((set) => ({
       previousArray: [],
       showPreviousModal: false,
     }),
+    gridLayout: {
+      numColumns: 6,
+      cellSize: 40,
+    }
 }));

@@ -1,9 +1,11 @@
 import RadialBackground from '@/components/radial';
+import { calculateGridLayout } from '@/helper';
 import { useTimerStore } from '@/store';
 import { useRouter } from 'expo-router';
-
+import { useEffect } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 /**
  * Index Component
@@ -16,7 +18,12 @@ const Index = () => {
   const router = useRouter();
   const previousNumber=useTimerStore((state)=>state.previousNumber);
   const resetStore = useTimerStore.getState().resetStore;
-  console.log(previousNumber);
+  const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    calculateGridLayout({top:insets.top,bottom:insets.bottom});
+  }, []);
+
 
   return (
     <View style={{flex:1}}>
