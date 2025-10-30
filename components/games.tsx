@@ -155,11 +155,12 @@ buttonContainer: {
   justifyContent: "space-between",
   alignItems: "center",
   gap: wp(4),
+  
 },
   buttonOpen: {
     backgroundColor: "#20BD61",
-    width: wp(14),
-    height: hp(12),
+    width: wp(12),
+    height: hp(10),
   },
   buttonClose: {
     backgroundColor: "#20BD61",

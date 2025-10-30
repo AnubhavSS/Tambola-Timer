@@ -91,7 +91,7 @@ const cellMargin=3
     let newCols=cols
     if (cols < 6) cols = 15; // minimum columns
     else if (cols > 12) cols = 10; // maximum columns (for tablets)
-    else cols=12
+    else cols=11
 
 
   const rows = Math.ceil(totalNumber / cols);

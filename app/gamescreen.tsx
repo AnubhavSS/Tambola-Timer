@@ -110,9 +110,8 @@ const styles = StyleSheet.create({
    flexDirection:"row",
   //  width:wp('100%'),
   marginBottom:hp('5%'),
-  marginHorizontal:wp('4%'),
-   
-    gap:wp('5%'),
+  marginHorizontal:wp('4%'), 
+    gap:wp('10%'),
    
      },
    leftPart:{
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     height:hp('85%'),
     alignItems:"center",
     justifyContent:"center",
-    gap:hp('0.5%'),
+    marginLeft:wp('3%'),
    }
 
    }

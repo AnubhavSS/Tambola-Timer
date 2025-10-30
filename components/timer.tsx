@@ -1,8 +1,9 @@
 import { useTimerStore } from '@/store';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CircularProgress from './CircularProgress';
 
 /**
@@ -16,14 +17,15 @@ const Timer = () => {
     const progress = useTimerStore((state) => state.progress);
     const currentNumber = useTimerStore((state) => state.currentNumber);
     const {play_pause, togglePlayPause} = useTimerStore();
-   
+    const insets=useSafeAreaInsets()
+   const  availableWidth=Dimensions.get("window").height*0.7
     
     return (
         <View style={styles.container}>
            
                 {/* Progress indicator for the timer */}
                 <CircularProgress
-     progress={Math.round(progress*100)} showLabel={false} outerCircleColor="#ffffff" progressCircleColor="#20BD61" size={hp('70%')} strokeWidth={hp('2%')}
+     progress={Math.round(progress*100)} showLabel={false} outerCircleColor="#ffffff" progressCircleColor="#20BD61" size={availableWidth} strokeWidth={hp('2%')}
      />
                  
                 {/* Play/Pause toggle button  */}
