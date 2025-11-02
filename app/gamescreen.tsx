@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   //  width:wp('100%'),
   marginBottom:hp('5%'),
   marginHorizontal:wp('4%'), 
-    gap:wp('10%'),
+    gap:wp('5%'),
    
      },
    leftPart:{

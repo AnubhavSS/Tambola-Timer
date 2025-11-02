@@ -2,10 +2,13 @@ import RadialBackground from '@/components/radial';
 import { calculateGridLayout } from '@/helper';
 import { useTimerStore } from '@/store';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import mobileAds, { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+
 
 /**
  * Index Component
@@ -13,7 +16,22 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
  * Main landing page of the Tambola Timer app.
  * Displays the app title, logo, and navigation buttons.
  */
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-2097672905689831/6487545007';
+
 const Index = () => {
+
+ useEffect(() => {
+  mobileAds().initialize();
+}, []);
+
+  const bannerRef = useRef<BannerAd>(null);
+
+  // (iOS) WKWebView can terminate if app is in a "suspended state", resulting in an empty banner when app returns to foreground.
+  // Therefore it's advised to "manually" request a new ad when the app is foregrounded (https://groups.google.com/g/google-admob-ads-sdk/c/rwBpqOUr8m8).
+  useForeground(() => {
+    Platform.OS === 'ios' && bannerRef.current?.load();
+  });
+  
   // Initialize router for navigation between screens
   const router = useRouter();
   const previousNumber=useTimerStore((state)=>state.previousNumber);
@@ -26,7 +44,7 @@ const Index = () => {
 
 
   return (
-    <View style={{flex:1}}>
+    <View style={{flex:1,paddingBottom: 20}}>
       <RadialBackground/>
     <View style={styles.container}>
      
@@ -71,6 +89,14 @@ const Index = () => {
         </Pressable>
       </View> 
     </View>
+    <View style={styles.bannerStyle}>
+  <BannerAd
+    ref={bannerRef}
+    unitId={adUnitId}
+    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+  />
+</View>
+
     </View>
   )
 }
@@ -147,4 +173,12 @@ const styles = StyleSheet.create({
     color: "#20BD61",
     fontWeight: "bold"
   },
+  bannerStyle:{
+    position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      alignItems: 'center',    // this centers the child horizontally
+      
+  }
 });

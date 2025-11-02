@@ -1,10 +1,11 @@
 import { useTimerStore } from '@/store';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TestIds, useInterstitialAd } from "react-native-google-mobile-ads";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CircularProgress from './CircularProgress';
+
 
 /**
  * Timer Component
@@ -17,8 +18,40 @@ const Timer = () => {
     const progress = useTimerStore((state) => state.progress);
     const currentNumber = useTimerStore((state) => state.currentNumber);
     const {play_pause, togglePlayPause} = useTimerStore();
-    const insets=useSafeAreaInsets()
    const  availableWidth=Dimensions.get("window").height*0.7
+
+const unitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : 'ca-app-pub-2097672905689831/3538055833';
+
+const { isLoaded, show, load } = useInterstitialAd(unitId, {
+  requestNonPersonalizedAdsOnly: true,
+});
+
+useEffect(() => {
+ 
+  load();
+}, [load]);
+
+const handlePause = () => {
+  // console.log("pause pressed");
+
+  if (play_pause) {
+    // console.log("play_pause was true");
+
+    if (isLoaded) {
+      // console.log("ad is loaded, showing it now");
+      show();
+    } else {
+      console.log("ad NOT loaded yet");
+    }
+
+    setTimeout(load, 200); // load next one
+  }
+
+  togglePlayPause();
+};
+   
     
     return (
         <View style={styles.container}>
@@ -29,7 +62,7 @@ const Timer = () => {
      />
                  
                 {/* Play/Pause toggle button  */}
-                 <TouchableOpacity style={styles.play} onPress={() => togglePlayPause()}>
+                 <TouchableOpacity style={styles.play} onPress={handlePause}>
                     {play_pause 
                         ? <Text style={styles.text}>{currentNumber < 10 ? `0${currentNumber}` : currentNumber}</Text>
                         : <FontAwesome5 name="play" size={hp('40')} color="white" style={styles.playBtn}/>

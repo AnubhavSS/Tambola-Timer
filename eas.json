@@ -1,6 +1,6 @@
 {
   "build": {
-    "production": {
+    "development": {
       "autoIncrement": true,
       "android": {
         "buildType": "apk"
