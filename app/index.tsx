@@ -1,14 +1,15 @@
 import RadialBackground from '@/components/radial';
 import { calculateGridLayout } from '@/helper';
 import { useTimerStore } from '@/store';
+
+import crashlytics from '@react-native-firebase/crashlytics';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import mobileAds, { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
+import Animated, { BounceIn } from 'react-native-reanimated';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-
 
 /**
  * Index Component
@@ -20,8 +21,12 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-209767290568983
 
 const Index = () => {
 
+
+
  useEffect(() => {
   mobileAds().initialize();
+  crashlytics().log("testing crash")
+crashlytics().crash()
 }, []);
 
   const bannerRef = useRef<BannerAd>(null);
@@ -50,24 +55,33 @@ const Index = () => {
      
       
       {/* App Logo */}
-      <Image source={require('../assets/images/logo.png')} style={styles.logo} />
+      <Animated.View entering={BounceIn}>
+      <Image source={require('../assets/images/logoo.png')} style={styles.logo} />
+      </Animated.View>
     
       {/* Main Navigation Card*/}
       <View style={styles.card}> 
         {/* Start Game Button */}
-         <Pressable 
-          style={({ pressed }) => [styles.startButton, pressed && styles.pressed]} 
-          onPress={() => {
-            resetStore();
-            router.push("/gamescreen");
-          }}
-        >
-          {({ pressed }) => (
-            <Text style={[styles.text, pressed && {color:"#20BD61"}]}>
-              Start New Game
-            </Text>
-          )}
-        </Pressable>
+ <Animated.View entering={BounceIn}>
+  <Pressable
+    onPress={() => {
+      resetStore()
+      router.push("/gamescreen")
+    }}
+    style={({ pressed }) => [
+      styles.startButton,
+      pressed && styles.pressed
+    ]}
+  >
+    {({ pressed }) => (
+      <Text style={[styles.text, pressed && { color: "#20BD61" }]}>
+        Start New Game
+      </Text>
+    )}
+  </Pressable>
+</Animated.View>
+
+
 
          {/* Continue Button  */}
        { previousNumber !== null && (
@@ -80,6 +94,7 @@ const Index = () => {
         </Pressable>)}
 
         {/* Settings Button  */}
+        <Animated.View entering={BounceIn}>
          <Pressable style={({ pressed }) => [styles.settingsButton, pressed && styles.pressed]} onPress={() => router.push("/settingscreen")}>
           {({ pressed }) => (
             <Text style={[styles.text, pressed && {color:"#20BD61"}]}>
@@ -87,6 +102,7 @@ const Index = () => {
             </Text>
           )}
         </Pressable>
+        </Animated.View>
       </View> 
     </View>
     <View style={styles.bannerStyle}>
@@ -115,11 +131,11 @@ const styles = StyleSheet.create({
     flexDirection:"row",
         justifyContent:"space-around",
     alignItems:"center",
-    paddingLeft: wp('10%'),
+    paddingLeft: wp('8%'),
   },
   logo: {
-    width: wp('35%'),
-    height: hp('65%'),
+    width: wp('37%'),
+    height: hp('67%'),
   },
   card: {
     backgroundColor: 'transparent',

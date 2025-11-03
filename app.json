@@ -4,7 +4,7 @@
     "slug": "tambola-timer",
     "version": "1.0.0",
     "orientation": "landscape",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/logoo.png",
     "scheme": "tambolatimer",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -22,17 +22,21 @@
       "googleMobileAdsAppId": "ca-app-pub-2097672905689831~6487545007",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/logo.png",
-        "backgroundImage": "./assets/images/logo.png",
-        "monochromeImage": "./assets/images/logo.png"
+        "foregroundImage": "./assets/images/logoo.png",
+        "backgroundImage": "./assets/images/logoo.png",
+        "monochromeImage": "./assets/images/logoo.png"
+      
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anubhavss.tambolatimer"
+      "package": "com.anubhavss.tambolatimer",
+      "googleServicesFile": "./google-services.json"
     },
 
     "plugins": [
       "expo-router",
+       "@react-native-firebase/app",
+      "@react-native-firebase/crashlytics",
       [
         "react-native-google-mobile-ads",
         {
@@ -43,7 +47,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.png",
+          "image": "./assets/images/logoo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",

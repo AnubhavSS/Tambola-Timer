@@ -17,47 +17,14 @@ const Grid = () => {
   const gridLayout = useTimerStore((state) => state.gridLayout);
   const insets = useSafeAreaInsets();
   
-  // const [numColumns, setNumColumns] = useState(6);
-  // const [numRows, setNumRows] = useState(15);
-  // const [cellSize, setCellSize] = useState(40);
+
 
   // Create an array of numbers from 1 to 90 for the Tambola board
   let gridData = Array.from({ length: 90 }, (_, i) => i + 1);
 
-//   const { width, height } = Dimensions.get("window");
-//     const insets = useSafeAreaInsets();
 
-//     const  availableHeight=width
     const  availableWidth=(Dimensions.get("window").width*0.65)-insets.left-insets.right
-// const totalNumber=90
-// const cellMargin=3
 
-//   useEffect(() => { 
-//     // initial guess for cell size (tuned for phones)
-//     const targetCellSize = Math.max(40, Math.min(availableWidth / 15, availableHeight / 10));
-
-//     // compute possible number of columns that can fit horizontally
-//     let cols = Math.floor(availableWidth / (targetCellSize + cellMargin * 2));
-//     if (cols < 6) cols = 12; // minimum columns
-//     if (cols > 15) cols = 10; // maximum columns (for tablets)
-
-//     // rows needed for 90 numbers
-//     let rows = Math.ceil(totalNumber / cols);
-
-//     // recompute final cell size to fill height neatly
-//     const cellW = Math.floor((availableWidth - cols * cellMargin * 2) / cols);
-//     const cellH = Math.floor((availableHeight - rows * cellMargin * 2) / rows);
-//     const finalCellSize = Math.min(cellW, cellH);
-
-//     setNumColumns(cols);
-//     setNumRows(rows);
-//     setCellSize(finalCellSize);
-
-//     // return { numColumns: cols, numRows: rows, cellSize: finalCellSize };
-// }, []);
-
-  // const gridWidth = numColumns * (cellSize + cellMargin * 2);
-  // const gridHeight = numRows * (cellSize + cellMargin * 2);
   
 
   return (
@@ -94,12 +61,10 @@ export default Grid;
  */
 const styles = StyleSheet.create({
   grid: {
-    width: wp("65"), // Responsive width based on screen percentage
-    height: hp("93%"), // Responsive height based on screen percentage
-      alignItems: "center",
+    alignItems: "center",
     backgroundColor: "rgba(238, 238, 238, 0.6)",
     borderRadius: 40,
-    padding: hp("3%"),
+    padding: hp("4%"),
     marginTop: hp("5%"),
 
   },

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "515896514759",
+    "project_id": "tambola-timer-df233",
+    "storage_bucket": "tambola-timer-df233.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515896514759:android:afcbd3ffade7a3632fc6e2",
+        "android_client_info": {
+          "package_name": "com.anubhavss.tambolatimer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwAlP_5tGXfyYOj_YMB33GoTUjvBVOdiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

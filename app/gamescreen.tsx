@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   container: {
    display:"flex",
    flexDirection:"row",
-  //  width:wp('100%'),
   marginBottom:hp('5%'),
   marginHorizontal:wp('4%'), 
     gap:wp('5%'),
@@ -117,8 +116,8 @@ const styles = StyleSheet.create({
    leftPart:{
     display:"flex",
     flexDirection:"column",
-    width:wp('30%'),
-    height:hp('85%'),
+    width:wp('28%'),
+    height:hp('75%'),
     alignItems:"center",
     justifyContent:"center",
     marginLeft:wp('3%'),
