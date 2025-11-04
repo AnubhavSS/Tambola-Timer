@@ -8,7 +8,6 @@
     "scheme": "tambolatimer",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anubhavss.tambolatimer",
@@ -17,7 +16,6 @@
         "ITSAppUsesNonExemptEncryption": false
       }
     },
-
     "android": {
       "googleMobileAdsAppId": "ca-app-pub-2097672905689831~6487545007",
       "adaptiveIcon": {
@@ -25,18 +23,14 @@
         "foregroundImage": "./assets/images/logoo.png",
         "backgroundImage": "./assets/images/logoo.png",
         "monochromeImage": "./assets/images/logoo.png"
-      
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anubhavss.tambolatimer",
       "googleServicesFile": "./google-services.json"
     },
-
     "plugins": [
       "expo-router",
-       "@react-native-firebase/app",
-      "@react-native-firebase/crashlytics",
       [
         "react-native-google-mobile-ads",
         {
@@ -55,19 +49,25 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "react-native",
+          "organization": "pocketnest-apps"
+        }
+      ],
+      "expo-web-browser"
     ],
-
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
-
     "extra": {
       "router": {},
       "eas": {

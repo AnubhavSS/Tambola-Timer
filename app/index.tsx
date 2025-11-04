@@ -1,8 +1,7 @@
 import RadialBackground from '@/components/radial';
 import { calculateGridLayout } from '@/helper';
 import { useTimerStore } from '@/store';
-
-import crashlytics from '@react-native-firebase/crashlytics';
+import * as Sentry from "@sentry/react-native";
 import { useRouter } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -10,6 +9,7 @@ import mobileAds, { BannerAd, BannerAdSize, TestIds, useForeground } from 'react
 import Animated, { BounceIn } from 'react-native-reanimated';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 /**
  * Index Component
@@ -22,11 +22,13 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-209767290568983
 const Index = () => {
 
 
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  enableAutoSessionTracking: true,
+});
 
  useEffect(() => {
   mobileAds().initialize();
-  crashlytics().log("testing crash")
-crashlytics().crash()
 }, []);
 
   const bannerRef = useRef<BannerAd>(null);
@@ -67,6 +69,7 @@ crashlytics().crash()
     onPress={() => {
       resetStore()
       router.push("/gamescreen")
+      
     }}
     style={({ pressed }) => [
       styles.startButton,
@@ -125,11 +128,9 @@ export default Index
 const styles = StyleSheet.create({
   container: {
     height: hp('100%'), // Full screen height
-     width: wp('100%'), // Full screen width
     display:"flex",
-    
     flexDirection:"row",
-        justifyContent:"space-around",
+    justifyContent:"space-around",
     alignItems:"center",
     paddingLeft: wp('8%'),
   },
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 15,
      // Elevation / Shadow
     elevation: 8, // Android shadow
     shadowColor: '#000', // iOS shadow color

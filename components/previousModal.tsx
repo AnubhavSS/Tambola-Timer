@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginVertical: hp('2%'),
     marginHorizontal:hp('4%'),
-    fontSize: hp('6%'),
+    fontSize: hp('8%'),
     color: 'black',
     fontWeight: 'bold',
   },
