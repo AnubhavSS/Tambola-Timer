@@ -1,201 +1,225 @@
-import RadialBackground from '@/components/radial';
-import { calculateGridLayout } from '@/helper';
-import { useTimerStore } from '@/store';
+import RadialBackground from "@/components/radial";
+import { calculateGridLayout } from "@/helper";
+import { useTimerStore } from "@/store";
 import * as Sentry from "@sentry/react-native";
-import { useRouter } from 'expo-router';
-import { useEffect, useRef } from 'react';
-import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
-import mobileAds, { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
-import Animated, { BounceIn } from 'react-native-reanimated';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { useRouter } from "expo-router";
+import { useEffect, useRef } from "react";
+import {
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
+import mobileAds, {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+  useForeground,
+} from "react-native-google-mobile-ads";
+import Animated, { BounceIn } from "react-native-reanimated";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 
 /**
  * Index Component
- * 
+ *
  * Main landing page of the Tambola Timer app.
  * Displays the app title, logo, and navigation buttons.
  */
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-2097672905689831/6487545007';
+const adUnitId = __DEV__
+  ? TestIds.ADAPTIVE_BANNER
+  : "ca-app-pub-2097672905689831/6487545007";
 
 const Index = () => {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    enableAutoSessionTracking: true,
+  });
 
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  enableAutoSessionTracking: true,
-});
-
- useEffect(() => {
-  mobileAds().initialize();
-}, []);
+  useEffect(() => {
+    mobileAds().initialize();
+  }, []);
 
   const bannerRef = useRef<BannerAd>(null);
 
   // (iOS) WKWebView can terminate if app is in a "suspended state", resulting in an empty banner when app returns to foreground.
   // Therefore it's advised to "manually" request a new ad when the app is foregrounded (https://groups.google.com/g/google-admob-ads-sdk/c/rwBpqOUr8m8).
   useForeground(() => {
-    Platform.OS === 'ios' && bannerRef.current?.load();
+    Platform.OS === "ios" && bannerRef.current?.load();
   });
-  
+
   // Initialize router for navigation between screens
   const router = useRouter();
-  const previousNumber=useTimerStore((state)=>state.previousNumber);
+  const previousNumber = useTimerStore((state) => state.previousNumber);
   const resetStore = useTimerStore.getState().resetStore;
-  const insets = useSafeAreaInsets();
+    const insets = useSafeAreaInsets();
 
+
+  // Calculate grid layout based on safe area insets
   useEffect(() => {
-    calculateGridLayout({top:insets.top,bottom:insets.bottom});
+  calculateGridLayout({top:insets.top,bottom:insets.bottom});
   }, []);
 
-
   return (
-    <View style={{flex:1,paddingBottom: 20}}>
-      <RadialBackground/>
-    <View style={styles.container}>
-     
-      
-      {/* App Logo */}
-      <Animated.View entering={BounceIn}>
-      <Image source={require('../assets/images/logoo.png')} style={styles.logo} />
-      </Animated.View>
-    
-      {/* Main Navigation Card*/}
-      <View style={styles.card}> 
-        {/* Start Game Button */}
- <Animated.View entering={BounceIn}>
-  <Pressable
-    onPress={() => {
-      resetStore()
-      router.push("/gamescreen")
-      
-    }}
-    style={({ pressed }) => [
-      styles.startButton,
-      pressed && styles.pressed
-    ]}
-  >
-    {({ pressed }) => (
-      <Text style={[styles.text, pressed && { color: "#20BD61" }]}>
-        Start New Game
-      </Text>
-    )}
-  </Pressable>
-</Animated.View>
-
-
-
-         {/* Continue Button  */}
-       { previousNumber !== null && (
-        <Pressable style={({ pressed }) => [styles.settingsButton, pressed && styles.pressed]} onPress={() => router.push("/gamescreen")}>
-          {({ pressed }) => (
-            <Text style={[styles.text, pressed && {color:"#20BD61"}]}>
-              Continue
-            </Text>
-          )}
-        </Pressable>)}
-
-        {/* Settings Button  */}
+    <View style={{ flex: 1, paddingBottom: 20 }}>
+      <RadialBackground />
+      <View style={styles.container}>
+        {/* App Logo */}
         <Animated.View entering={BounceIn}>
-         <Pressable style={({ pressed }) => [styles.settingsButton, pressed && styles.pressed]} onPress={() => router.push("/settingscreen")}>
-          {({ pressed }) => (
-            <Text style={[styles.text, pressed && {color:"#20BD61"}]}>
-              Settings
-            </Text>
-          )}
-        </Pressable>
+          <Image
+            source={require("../assets/images/logoo.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </Animated.View>
-      </View> 
-    </View>
-    <View style={styles.bannerStyle}>
-  <BannerAd
-    ref={bannerRef}
-    unitId={adUnitId}
-    size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-  />
-</View>
 
-    </View>
-  )
-}
+        {/* Main Navigation Card*/}
+        <View style={styles.card}>
+          {/* Start Game Button */}
+          <Animated.View entering={BounceIn}>
+            <Pressable
+              onPress={() => {
+                resetStore();
+                router.push("/gamescreen");
+              }}
+              style={({ pressed }) => [
+                styles.startButton,
+                pressed && styles.pressed,
+              ]}
+            >
+              {({ pressed }) => (
+                <Text style={[styles.text, pressed && { color: "#20BD61" }]}>
+                  Start New Game
+                </Text>
+              )}
+            </Pressable>
+          </Animated.View>
 
-export default Index
+          {/* Continue Button  */}
+          {previousNumber !== null && (
+            <Pressable
+              style={({ pressed }) => [
+                styles.settingsButton,
+                pressed && styles.pressed,
+              ]}
+              onPress={() => router.push("/gamescreen")}
+            >
+              {({ pressed }) => (
+                <Text style={[styles.text, pressed && { color: "#20BD61" }]}>
+                  Continue
+                </Text>
+              )}
+            </Pressable>
+          )}
+
+          {/* Settings Button  */}
+          <Animated.View entering={BounceIn}>
+            <Pressable
+              style={({ pressed }) => [
+                styles.settingsButton,
+                pressed && styles.pressed,
+              ]}
+              onPress={() => router.push("/settingscreen")}
+            >
+              {({ pressed }) => (
+                <Text style={[styles.text, pressed && { color: "#20BD61" }]}>
+                  Settings
+                </Text>
+              )}
+            </Pressable>
+          </Animated.View>
+        </View>
+      </View>
+      <View style={styles.bannerStyle}>
+        <BannerAd
+          ref={bannerRef}
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        />
+      </View>
+    </View>
+  );
+};
+
+export default Index;
 
 /**
  * Component Styles
  */
 const styles = StyleSheet.create({
   container: {
-    height: hp('100%'), // Full screen height
-    display:"flex",
-    flexDirection:"row",
-    justifyContent:"space-around",
-    alignItems:"center",
-    paddingLeft: wp('8%'),
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: wp("6%"),
   },
+
   logo: {
-    width: wp('37%'),
-    height: hp('67%'),
+    width: wp("35%"),
+    aspectRatio: 0.7, // maintains original shape automatically
+    resizeMode: "contain", // ensures full image visibility
   },
+
   card: {
-    backgroundColor: 'transparent',
-    height: hp('40%'),
-    width: wp('65%'),
-    marginTop: hp('10%'),
-   
-    display: "flex",
-    flexDirection: "column",
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    gap: hp("3%"), // consistent spacing between buttons
+    maxWidth: wp("55%"),
   },
+
   startButton: {
-    width: wp('40%'),
-    height: hp('17%'),
-    backgroundColor: '#20BD61',
+    width: wp("40%"),
+    height: hp("17%"),
+    backgroundColor: "#20BD61",
     borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 20,
     // Elevation / Shadow
     elevation: 8, // Android shadow
-    shadowColor: '#000', // iOS shadow color
-    shadowOffset: { width: 0, height: 4 }, 
+    shadowColor: "#000", // iOS shadow color
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
   settingsButton: {
-    width: wp('25%'),
-    height: hp('15%'),
-    backgroundColor: 'rgba(32,189,97,0.2)',
-        borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: wp("25%"),
+    height: hp("15%"),
+    backgroundColor: "rgba(32,189,97,0.2)",
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 15,
-     // Elevation / Shadow
+    // Elevation / Shadow
     elevation: 8, // Android shadow
-    shadowColor: '#000', // iOS shadow color
-    shadowOffset: { width: 0, height: 4 }, 
+    shadowColor: "#000", // iOS shadow color
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
   text: {
     fontWeight: "bold", // Button text weight
-    fontSize: hp('7%'), // Responsive font size
-    color: '#ffffff', // Light gray text color
+    fontSize: hp("7%"), // Responsive font size
+    color: "#ffffff", // Light gray text color
     textTransform: "uppercase",
   },
   pressed: {
     backgroundColor: "#ffffff", // Background color when button is pressed
     color: "#20BD61",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
-  bannerStyle:{
-    position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      alignItems: 'center',    // this centers the child horizontally
-      
-  }
+  bannerStyle: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: "center", // this centers the child horizontally
+  },
 });

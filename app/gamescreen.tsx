@@ -7,7 +7,7 @@ import { startTambolaGenerator } from "@/helper";
 import { useTimerStore } from "@/store";
 import * as Speech from "expo-speech";
 import { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 /**
@@ -105,23 +105,26 @@ export default Gamescreen;
  * Component Styles
  */
 const styles = StyleSheet.create({
-  container: {
-   display:"flex",
-   flexDirection:"row",
-  marginBottom:hp('5%'),
-  marginHorizontal:wp('4%'), 
-    gap:wp('5%'),
-   
-     },
-   leftPart:{
-    display:"flex",
-    flexDirection:"column",
-    width:wp('28%'),
-    height:hp('75%'),
-    alignItems:"center",
-    justifyContent:"center",
-    marginLeft:wp('3%'),
-   }
+ container: {
+  flex: 1,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  marginHorizontal: wp("3%"),
+  gap: wp("4%"),
+  ...(Dimensions.get("window").width > 1000 && {
+    paddingVertical: hp("5%"),
+  }),
+},
+
+   leftPart: {
+  flexShrink: 0,
+  flexGrow: 0,
+  width: wp("28%"),
+  alignItems: "center",
+  justifyContent: "center",
+  marginLeft: wp("3%"),
+},
 
    }
 );

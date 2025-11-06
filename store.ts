@@ -28,7 +28,9 @@ interface TimerState {
   gridLayout: {
     numColumns: number;
     cellSize: number;
+    cellMargin: number;
   }
+  
 }
 
 /**
@@ -81,7 +83,9 @@ export const useTimerStore = create<TimerState>((set) => ({
       showPreviousModal: false,
     }),
     gridLayout: {
-      numColumns: 6,
-      cellSize: 40,
-    }
+      numColumns: 10,
+      cellSize: 0,
+      cellMargin: 3,
+    },
+  
 }));

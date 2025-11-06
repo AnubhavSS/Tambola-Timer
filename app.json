@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "tambola-timer",
-    "slug": "tambola-timer",
+    "name": "Tambola-Timer",
+    "slug": "Tambola-Timer",
     "version": "1.0.0",
     "orientation": "landscape",
-    "icon": "./assets/images/logoo.png",
+    "icon": "./assets/images/icon.jpeg",
     "scheme": "tambolatimer",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,9 +20,9 @@
       "googleMobileAdsAppId": "ca-app-pub-2097672905689831~6487545007",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/logoo.png",
-        "backgroundImage": "./assets/images/logoo.png",
-        "monochromeImage": "./assets/images/logoo.png"
+        "foregroundImage": "./assets/images/icon.jpeg",
+        "backgroundImage": "./assets/images/icon.jpeg",
+        "monochromeImage": "./assets/images/icon.jpeg"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -41,9 +41,9 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logoo.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
+          "image": "./assets/images/icon.jpeg",
+          "imageWidth": "100%",
+          "resizeMode": "corver",
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#000000"
