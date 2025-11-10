@@ -1,7 +1,12 @@
 {
   "expo": {
     "name": "Tambola-Timer",
-    "slug": "Tambola-Timer",
+    "slug": "tambola-timer",
+    "splash": {
+      "image": "./assets/images/icon.jpeg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/images/icon.jpeg",
@@ -50,14 +55,7 @@
           }
         }
       ],
-      [
-        "@sentry/react-native/expo",
-        {
-          "url": "https://sentry.io/",
-          "project": "react-native",
-          "organization": "pocketnest-apps"
-        }
-      ],
+     
       "expo-web-browser"
     ],
     "web": {

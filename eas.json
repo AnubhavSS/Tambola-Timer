@@ -9,5 +9,15 @@
   },
   "cli": {
     "appVersionSource": "remote"
+  },
+   "production": {
+      "developmentClient": false,
+      "distribution": "store",
+      "buildType": "app-bundle",
+      "gradleCommand": ":app:bundleRelease"
+    }
+  ,
+  "submit": {
+    "production": {}
   }
 }

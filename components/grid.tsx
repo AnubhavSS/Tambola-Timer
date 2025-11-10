@@ -77,7 +77,7 @@ cell: {
   borderRadius: 8,
 },
 cellText: {
-  fontSize: 22,
+  fontSize: 18,
   fontWeight: "400",
 },
 

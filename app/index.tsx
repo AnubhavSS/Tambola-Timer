@@ -1,7 +1,7 @@
 import RadialBackground from "@/components/radial";
 import { calculateGridLayout } from "@/helper";
 import { useTimerStore } from "@/store";
-import * as Sentry from "@sentry/react-native";
+
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import {
@@ -36,10 +36,7 @@ const adUnitId = __DEV__
   : "ca-app-pub-2097672905689831/6487545007";
 
 const Index = () => {
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    enableAutoSessionTracking: true,
-  });
+ 
 
   useEffect(() => {
     mobileAds().initialize();

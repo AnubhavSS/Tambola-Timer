@@ -109,7 +109,7 @@ export function calculateGridLayout({
   // Compute exact cell size to fill available space perfectly
   const totalHorizontalMargins = cellMargin * 2 * cols;
   const totalVerticalMargins = cellMargin * 2 * rows;
-  const cellWidth = (availableWidth - totalHorizontalMargins*2.5) / cols;
+  const cellWidth = (availableWidth - totalHorizontalMargins*2) / cols;
   const cellHeight = (availableHeight - totalVerticalMargins*3) / rows;
   const finalCellSize = Math.min(cellWidth, cellHeight);
 
