@@ -1,23 +1,22 @@
 {
-  "build": {
-    "development": {
-      "autoIncrement": true,
-      "android": {
-        "buildType": "apk"
-      }
-    }
-  },
   "cli": {
+    "version": ">= 16.18.0",
     "appVersionSource": "remote"
   },
-   "production": {
-      "developmentClient": false,
-      "distribution": "store",
-      "buildType": "app-bundle",
-      "gradleCommand": ":app:bundleRelease"
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "autoIncrement": true
     }
-  ,
+  },
   "submit": {
     "production": {}
   }
 }
+

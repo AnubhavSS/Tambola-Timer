@@ -1,15 +1,18 @@
 import RadialBackground from "@/components/radial";
 import { calculateGridLayout } from "@/helper";
 import { useTimerStore } from "@/store";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { useRouter } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Image,
+  Modal,
   Platform,
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from "react-native";
 import mobileAds, {
@@ -36,7 +39,8 @@ const adUnitId = __DEV__
   : "ca-app-pub-2097672905689831/6487545007";
 
 const Index = () => {
- 
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     mobileAds().initialize();
@@ -66,6 +70,12 @@ const Index = () => {
     <View style={{ flex: 1, paddingBottom: 20 }}>
       <RadialBackground />
       <View style={styles.container}>
+
+        {/* Info Icon (top right corner) */}
+      <TouchableOpacity style={styles.infoIcon} onPress={() => setModalVisible(true)}>
+        <Ionicons name="information-circle-outline" size={32} color="#ffffffcc" />
+      </TouchableOpacity>
+      
         {/* App Logo */}
         <Animated.View entering={BounceIn}>
           <Image
@@ -132,6 +142,7 @@ const Index = () => {
           </Animated.View>
         </View>
       </View>
+
       <View style={styles.bannerStyle}>
         <BannerAd
           ref={bannerRef}
@@ -139,6 +150,36 @@ const Index = () => {
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         />
       </View>
+
+      {/* Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>How to Play</Text>
+
+            <Text style={styles.modalText}>
+              1. Tap <Text style={styles.highlight}>“Start New Game”</Text> to begin the timer.{"\n\n"}
+              2. Numbers will be called automatically at your chosen interval.{"\n\n"}
+              3. You can adjust the Call Interval, Rate, Volume, Language in{" "}
+              <Text style={styles.highlight}>Settings</Text>.{"\n\n"}
+              4. You can also add game names in <Text style={styles.highlight}>Settings</Text>.{"\n\n"}
+                5. Pause the timer at any time by tapping the Number.{"\n\n"}
+                  6. Can also view the called numbers in the history.{"\n\n"}
+                  7. Previous number is displayed in red color.{"\n\n"}
+            </Text>
+
+            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+              <Text style={styles.closeText}>Got it</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
     </View>
   );
 };
@@ -156,7 +197,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: wp("6%"),
   },
-
+ infoIcon: {
+    position: "absolute",
+    top: 45,
+    right: 25,
+    zIndex: 10,
+  },
   logo: {
     width: wp("35%"),
     aspectRatio: 0.7, // maintains original shape automatically
@@ -218,5 +264,50 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center", // this centers the child horizontally
+  },
+    modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.45)",
+  },
+  modalContainer: {
+    width: "85%",
+    backgroundColor: "rgba(255,255,255,0.95)",
+    borderRadius: 20,
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#007a63",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#003b2e",
+    marginBottom: 20,
+  },
+  highlight: {
+    fontWeight: "600",
+    color: "#20BD61",
+  },
+  closeButton: {
+    backgroundColor: "#20BD61",
+    borderRadius: 10,
+    alignSelf: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+  },
+  closeText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
