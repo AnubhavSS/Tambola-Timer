@@ -16,18 +16,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anubhavss.tambolatimer",
-      "googleMobileAdsAppId": "ca-app-pub-2097672905689831~6487545007",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "googleMobileAdsAppId": "ca-app-pub-2097672905689831~6487545007",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/icon.jpeg",
-        "backgroundImage": "./assets/images/icon.jpeg",
-        "monochromeImage": "./assets/images/icon.jpeg"
+        "backgroundColor": "#E6F4FE"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -48,14 +44,13 @@
         {
           "image": "./assets/images/icon.jpeg",
           "imageWidth": "100%",
-          "resizeMode": "corver",
+          "resizeMode": "cover",
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#000000"
           }
         }
       ],
-     
       "expo-web-browser"
     ],
     "web": {
@@ -71,6 +66,12 @@
       "eas": {
         "projectId": "db614e1a-7ed5-4979-b0a1-4ce0bf171a5a"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/db614e1a-7ed5-4979-b0a1-4ce0bf171a5a"
     }
   }
 }

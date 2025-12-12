@@ -1,11 +1,13 @@
+
 import RadialBackground from "@/components/radial";
+import { How_To_Play } from "@/data";
 import { calculateGridLayout } from "@/helper";
 import { useTimerStore } from "@/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
+  FlatList,
   Image,
   Modal,
   Platform,
@@ -13,7 +15,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import mobileAds, {
   BannerAd,
@@ -36,11 +38,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
  */
 const adUnitId = __DEV__
   ? TestIds.ADAPTIVE_BANNER
-  : "ca-app-pub-2097672905689831/6487545007";
+  : 
+   "ca-app-pub-2097672905689831/3538055833";
 
 const Index = () => {
 
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(true);
 
   useEffect(() => {
     mobileAds().initialize();
@@ -71,7 +74,7 @@ const Index = () => {
       <RadialBackground />
       <View style={styles.container}>
 
-        {/* Info Icon (top right corner) */}
+        {/* Info Icon (top left corner) */}
       <TouchableOpacity style={styles.infoIcon} onPress={() => setModalVisible(true)}>
         <Ionicons name="information-circle-outline" size={32} color="#ffffffcc" />
       </TouchableOpacity>
@@ -162,15 +165,15 @@ const Index = () => {
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>How to Play</Text>
 
-            <Text style={styles.modalText}>
-              1. Tap <Text style={styles.highlight}>“Start New Game”</Text> to begin the timer.{"\n\n"}
-              2. Numbers will be called automatically at your chosen interval.{"\n\n"}
-              3. You can adjust the Call Interval, Rate, Volume, Language in{" "}
-              <Text style={styles.highlight}>Settings</Text>.{"\n\n"}
-              4. You can also add game names in <Text style={styles.highlight}>Settings</Text>.{"\n\n"}
-                5. Pause the timer at any time by tapping the Number.{"\n\n"}
-                  6. Can also view the called numbers in the history.{"\n\n"}
-                  7. Previous number is displayed in red color.{"\n\n"}
+            <Text style={{flex:1}}>
+              <FlatList
+              
+                data={How_To_Play}
+                renderItem={({ item,index }) => (
+                  <Text style={styles.modalText}>{index+1}. {item}</Text>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </Text>
 
             <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
@@ -200,7 +203,7 @@ const styles = StyleSheet.create({
  infoIcon: {
     position: "absolute",
     top: 45,
-    right: 25,
+    left: 45,
     zIndex: 10,
   },
   logo: {
@@ -273,6 +276,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "85%",
+    height: "70%",
     backgroundColor: "rgba(255,255,255,0.95)",
     borderRadius: 20,
     padding: 25,
@@ -290,7 +294,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 20,
     color: "#003b2e",
     marginBottom: 20,
   },

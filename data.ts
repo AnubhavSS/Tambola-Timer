@@ -40,3 +40,14 @@ export const data: DataItem[] = [
     { label: 'BP High', value: 'BP High' },
     { label: 'BP Low', value: 'BP Low' },
   ];
+
+
+export const How_To_Play: string[] = [
+  "Tap \u201cStart New Game\u201d to begin the timer.",
+  "Numbers will be called automatically at your chosen interval.",
+  "You can adjust the Call Interval, Rate, Volume, Language in \u201cSettings.\u201d",
+  "You can also add game names in \u201cSettings.\u201d",
+  "Pause the timer at any time by tapping the Number.",
+  "You can view the called numbers in the history.",
+  "Previous number is displayed in \u201cRed color.\u201d"
+];

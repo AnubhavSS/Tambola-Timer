@@ -82,7 +82,7 @@ const handlePause = () => {
 
         <TouchableOpacity style={styles.playButton} onPress={handlePause}>
           {play_pause ? (
-            <Text style={[styles.numberText, { fontSize: circleSize * 0.70 }]}>
+            <Text style={[styles.numberText, { fontSize: circleSize * 0.60 }]}>
               {currentNumber < 10 ? `0${currentNumber}` : currentNumber}
             </Text>
           ) : (

@@ -3,20 +3,27 @@
     "version": ">= 16.18.0",
     "appVersionSource": "remote"
   },
-  "build": {
-    "development": {
+ "build": {
+    "production": {
+      "distribution": "store", // For App Store/Play Store
+      "autoIncrement": true,   // Auto-bumps version numbers
+      "channel": "production", // For EAS Update
+      "env": {                 // Environment variables (use EAS Secrets for sensitive ones!)
+        "NODE_ENV": "production"
+      },
+      "cache": {
+        "disabled": false,
+        "key": "prod-cache-v1"
+      }
+    },
+    "preview": { // For testing before production
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "development": { // For development builds
       "developmentClient": true,
       "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {
-      "autoIncrement": true
     }
-  },
-  "submit": {
-    "production": {}
   }
-}
+  }
 

@@ -92,15 +92,16 @@ export function calculateGridLayout({
   const availableWidth = width - cellMargin * 2;
   const availableHeight = height - top - bottom - cellMargin * 2;
 
+
    // 🔹 Decide number of columns based on landscape height
   // Because in landscape, height determines how “tall” the grid can be
   let cols;
   if (height <= 500) {
-    cols = 12; // very short screens — small phones in landscape
+    cols = 11; // very short screens — small phones in landscape
   } else if (height > 500 && height <= 700) {
-    cols = 11; // most phones in landscape (e.g. Pixel 9 Pro)
+    cols = 10; // most phones in landscape (e.g. Pixel 9 Pro)
   } else {
-    cols = 10; // large tablets — more space vertically
+    cols = 12; // large tablets — more space vertically
   }
 
   // Compute rows
@@ -116,7 +117,7 @@ export function calculateGridLayout({
 
 
   useTimerStore.setState({
-    gridLayout: { cellSize: finalCellSize, numColumns: cols, cellMargin },
+    gridLayout: { cellSize: finalCellSize, numColumns: 10, cellMargin },
   });
 
 }
