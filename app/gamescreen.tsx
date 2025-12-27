@@ -1,14 +1,14 @@
-import Games from "@/components/games";
-import Grid from "@/components/grid";
-import PreviousModal from "@/components/previousModal";
-import RadialBackground from "@/components/radial";
-import Timer from "@/components/timer";
-import { startTambolaGenerator } from "@/helper";
-import { useTimerStore } from "@/store";
 import * as Speech from "expo-speech";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import Games from "../components/games";
+import Grid from "../components/grid";
+import PreviousModal from "../components/previousModal";
+import RadialBackground from "../components/radial";
+import Timer from "../components/timer";
+import { startTambolaGenerator } from "../helper";
+import { useTimerStore } from "../store";
 
 /**
  * Gamescreen Component
@@ -106,11 +106,12 @@ export default Gamescreen;
  */
 const styles = StyleSheet.create({
  container: {
-  flex: 1,
+  // flex: 1,
+  width: wp("100%"),
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  marginHorizontal: wp("3%"),
+  marginHorizontal: wp("6%"),
   gap: wp("4%"),
   ...(Dimensions.get("window").width > 1000 && {
     paddingVertical: hp("5%"),

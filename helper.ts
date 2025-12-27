@@ -101,7 +101,7 @@ export function calculateGridLayout({
   } else if (height > 500 && height <= 700) {
     cols = 10; // most phones in landscape (e.g. Pixel 9 Pro)
   } else {
-    cols = 12; // large tablets — more space vertically
+    cols = 9; // large tablets — more space vertically
   }
 
   // Compute rows
@@ -112,12 +112,12 @@ export function calculateGridLayout({
   const totalVerticalMargins = cellMargin * 2 * rows;
   const cellWidth = (availableWidth - totalHorizontalMargins*2) / cols;
   const cellHeight = (availableHeight - totalVerticalMargins*3) / rows;
-  const finalCellSize = Math.min(cellWidth, cellHeight);
-
+  let finalCellSize = Math.min(cellWidth, cellHeight);
+  finalCellSize=cols === 9 ? finalCellSize*0.9 : finalCellSize*1.1;
 
 
   useTimerStore.setState({
-    gridLayout: { cellSize: finalCellSize, numColumns: 10, cellMargin },
+    gridLayout: { cellSize: finalCellSize, numColumns: cols, cellMargin, },
   });
 
 }

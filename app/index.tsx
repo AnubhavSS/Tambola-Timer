@@ -1,11 +1,6 @@
-
-import RadialBackground from "@/components/radial";
-import { How_To_Play } from "@/data";
-import { calculateGridLayout } from "@/helper";
-import { useTimerStore } from "@/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FlatList,
   Image,
@@ -29,6 +24,10 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import RadialBackground from "../components/radial";
+import { How_To_Play } from "../data";
+import { calculateGridLayout } from "../helper";
+import { useTimerStore } from "../store";
 
 /**
  * Index Component

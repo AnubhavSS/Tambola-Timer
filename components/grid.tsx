@@ -1,7 +1,7 @@
-import { useTimerStore } from "@/store";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTimerStore } from "../store";
 
 /**
  * Grid Component
@@ -45,7 +45,7 @@ const Grid = () => {
               },
             ]}
           >
-            <Text style={[styles.cellText, { color }]}>{item}</Text>
+            <Text style={[styles.cellText, { color }, {fontSize: gridLayout.cellSize*0.5}]}>{item}</Text>
           </View>
         );
       }}
@@ -77,7 +77,7 @@ cell: {
   borderRadius: 8,
 },
 cellText: {
-  fontSize: 18,
+  // fontSize: 18,
   fontWeight: "400",
 },
 

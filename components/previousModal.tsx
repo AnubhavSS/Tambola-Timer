@@ -1,7 +1,9 @@
-import { useTimerStore } from '@/store';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import React from "react";
 import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { useTimerStore } from '../store';
+
 
 
 const PreviousModal = () => {

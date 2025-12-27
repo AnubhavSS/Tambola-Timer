@@ -29,6 +29,7 @@ interface TimerState {
     numColumns: number;
     cellSize: number;
     cellMargin: number;
+  
   }
   
 }
@@ -86,6 +87,7 @@ export const useTimerStore = create<TimerState>((set) => ({
       numColumns: 10,
       cellSize: 0,
       cellMargin: 3,
+    
     },
   
 }));

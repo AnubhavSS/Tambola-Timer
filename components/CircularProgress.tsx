@@ -1,5 +1,5 @@
 // Packages Imports
-import { useState } from "react";
+import React, { useState } from "react";
 import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import Animated, {
   Extrapolate,

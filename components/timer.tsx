@@ -1,9 +1,9 @@
-import { useTimerStore } from '@/store';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import React, { useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TestIds, useInterstitialAd } from "react-native-google-mobile-ads";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTimerStore } from '../store';
 import CircularProgress from './CircularProgress';
 
 
@@ -17,6 +17,7 @@ const Timer = () => {
     // Get timer state and control functions from the global store
     const progress = useTimerStore((state) => state.progress);
     const currentNumber = useTimerStore((state) => state.currentNumber);
+    const gridLayout = useTimerStore((state) => state.gridLayout);
     const {play_pause, togglePlayPause} = useTimerStore();
   const insets = useSafeAreaInsets();
   const { height } = Dimensions.get("window");
@@ -44,7 +45,7 @@ const handlePause = () => {
       // console.log("ad is loaded, showing it now");
       show();
     } else {
-      console.log("ad NOT loaded yet");
+      // console.log("ad NOT loaded yet");
     }
 
     setTimeout(load, 200); // load next one
@@ -55,7 +56,7 @@ const handlePause = () => {
    
   // Circle covers 60% of available vertical space (minus safe area)
   const availableHeight = height - insets.top - insets.bottom;
-  const circleSize = availableHeight * 0.75;
+  const circleSize = gridLayout.numColumns === 9 ? availableHeight * 0.75 : availableHeight * 0.95;
 
    // Adjust marginTop to visually align with grid
   const topMargin = availableHeight * 0.20; // ~5% of screen height
@@ -77,7 +78,7 @@ const handlePause = () => {
           outerCircleColor="#ffffff"
           progressCircleColor="#20BD61"
           size={circleSize}
-          strokeWidth={circleSize * 0.04}
+          strokeWidth={circleSize * 0.03}
         />
 
         <TouchableOpacity style={styles.playButton} onPress={handlePause}>

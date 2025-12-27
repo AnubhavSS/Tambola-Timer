@@ -1,4 +1,3 @@
-import { useTimerStore } from "@/store";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from "expo-router";
@@ -7,6 +6,7 @@ import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Checkbox } from "react-native-paper";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTimerStore } from "../store";
 
 /**
  * Games Component
@@ -155,6 +155,7 @@ buttonContainer: {
   justifyContent: "space-between",
   alignItems: "center",
   gap: wp(4),
+  marginTop: wp(4),
   
 },
   buttonOpen: {

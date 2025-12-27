@@ -1,6 +1,3 @@
-import RadialBackground from "@/components/radial";
-import { data, DataItem } from "@/data";
-import { useTimerStore } from "@/store";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Slider from "@react-native-community/slider";
 import React, { useState } from "react";
@@ -8,6 +5,9 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { MultiSelect } from 'react-native-element-dropdown';
 import { RadioButton, TextInput } from "react-native-paper";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import RadialBackground from "../components/radial";
+import { data, DataItem } from "../data";
+import { useTimerStore } from "../store";
 
 
 
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.8)",
   },
   numberText: {
-    fontSize: hp(7),
+    fontSize: hp(5.7),
     fontWeight: "bold",
     color: "#ffffff", // needs '#' prefix
   },

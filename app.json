@@ -28,7 +28,8 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anubhavss.tambolatimer",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      
     },
     "plugins": [
       "expo-router",
@@ -72,6 +73,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/db614e1a-7ed5-4979-b0a1-4ce0bf171a5a"
-    }
+    },
+    
   }
 }
