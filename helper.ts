@@ -1,5 +1,14 @@
 import { Dimensions } from "react-native";
+import {
+  AdEventType,
+  InterstitialAd,
+  TestIds,
+} from "react-native-google-mobile-ads";
 import { useTimerStore } from "./store";
+
+const adUnitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : "ca-app-pub-2097672905689831/9745926177";
 
 /**
  * Shuffle Array
@@ -86,14 +95,13 @@ export function calculateGridLayout({
   top: number;
   bottom: number;
 }) {
- const { width, height } = Dimensions.get("window");
+  const { width, height } = Dimensions.get("window");
   const totalNumbers = 90;
   const cellMargin = 2; // tight margin
   const availableWidth = width - cellMargin * 2;
   const availableHeight = height - top - bottom - cellMargin * 2;
 
-
-   // 🔹 Decide number of columns based on landscape height
+  // 🔹 Decide number of columns based on landscape height
   // Because in landscape, height determines how “tall” the grid can be
   let cols;
   if (height <= 500) {
@@ -110,14 +118,43 @@ export function calculateGridLayout({
   // Compute exact cell size to fill available space perfectly
   const totalHorizontalMargins = cellMargin * 2 * cols;
   const totalVerticalMargins = cellMargin * 2 * rows;
-  const cellWidth = (availableWidth - totalHorizontalMargins*2) / cols;
-  const cellHeight = (availableHeight - totalVerticalMargins*3) / rows;
+  const cellWidth = (availableWidth - totalHorizontalMargins * 2) / cols;
+  const cellHeight = (availableHeight - totalVerticalMargins * 3) / rows;
   let finalCellSize = Math.min(cellWidth, cellHeight);
-  finalCellSize=cols === 9 ? finalCellSize*0.9 : finalCellSize*1.1;
-
+  finalCellSize = cols === 9 ? finalCellSize * 0.9 : finalCellSize * 1.1;
 
   useTimerStore.setState({
-    gridLayout: { cellSize: finalCellSize, numColumns: cols, cellMargin, },
+    gridLayout: { cellSize: finalCellSize, numColumns: cols, cellMargin },
+  });
+}
+
+let interstitial: InterstitialAd | null = null;
+let isAdLoaded = false;
+
+function createAndLoadInterstitial() {
+  interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+    keywords: ["fashion", "clothing"],
   });
 
+  interstitial.addAdEventListener(AdEventType.LOADED, () => {
+    isAdLoaded = true;
+  });
+
+  interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+    isAdLoaded = false;
+    createAndLoadInterstitial(); // preload next ad
+  });
+
+  interstitial.load();
+}
+
+// Call once (app start / screen mount)
+createAndLoadInterstitial();
+
+export function showInterstitialAd() {
+  if (isAdLoaded && interstitial) {
+    interstitial.show();
+  } else {
+    console.log("Ad not loaded yet");
+  }
 }

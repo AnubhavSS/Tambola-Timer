@@ -1,20 +1,28 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from "@expo/vector-icons/AntDesign";
 import React from "react";
-import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { useTimerStore } from '../store';
-
-
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
+import { useTimerStore } from "../store";
 
 const PreviousModal = () => {
-
   const showPreviousModal = useTimerStore((state) => state.showPreviousModal);
-  const setShowPreviousModal = useTimerStore((state) => state.setShowPreviousModal);
+  const setShowPreviousModal = useTimerStore(
+    (state) => state.setShowPreviousModal,
+  );
   const previousArray = useTimerStore((state) => state.previousArray);
-  
 
   return (
-   <Modal
+    <Modal
       animationType="slide"
       transparent={true}
       visible={showPreviousModal}
@@ -31,19 +39,22 @@ const PreviousModal = () => {
               <Text style={styles.modalText}>{item}</Text>
             )}
           />
-          <Pressable style={styles.buttonClose} onPress={() => setShowPreviousModal()}>
+          <Pressable
+            style={styles.buttonClose}
+            onPress={() => setShowPreviousModal()}
+          >
             <AntDesign name="close-circle" size={hp("6%")} color="#20BD61" />
           </Pressable>
         </View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export default PreviousModal
+export default PreviousModal;
 
 const styles = StyleSheet.create({
-   overlay: {
+  overlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -51,7 +62,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: wp("70%"),
-    height: hp("30%"),
+    height: hp("35%"),
     backgroundColor: "rgba(255,255,255,0.9)",
     borderRadius: 20,
     padding: 35,
@@ -74,4 +85,4 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
   },
-})
+});
