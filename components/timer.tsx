@@ -1,4 +1,3 @@
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import {
   Dimensions,
@@ -7,78 +6,119 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTimerStore } from "../store";
+import { Theme } from "../theme";
 import CircularProgress from "./CircularProgress";
 
 /**
  * Timer Component
  *
- * Displays a progress bar and play/pause button for controlling the Tambola timer.
- * Uses the global timer store to manage state and control playback.
+ * Displays the caller number and lets the player tap it to pause/resume.
+ * midnight/festive show a circular progress ring; stage shows a large
+ * numeral over a linear progress bar (no ring). Sized to leave comfortable
+ * room for the recent strip, control bar and pattern chips below it — the
+ * parent column centers the whole cluster, so this only needs to size
+ * itself, not position itself.
  */
-const Timer = () => {
-  // Get timer state and control functions from the global store
+const Timer = ({ theme }: { theme: Theme }) => {
   const progress = useTimerStore((state) => state.progress);
   const currentNumber = useTimerStore((state) => state.currentNumber);
-  const gridLayout = useTimerStore((state) => state.gridLayout);
+  const previousNumber = useTimerStore((state) => state.previousNumber);
   const { play_pause, togglePlayPause } = useTimerStore();
   const insets = useSafeAreaInsets();
   const { height } = Dimensions.get("window");
-
-  // const unitId = __DEV__
-  //   ? TestIds.INTERSTITIAL
-  //   : "ca-app-pub-2097672905689831/9745926177";
+  const availableHeight = height - insets.top - insets.bottom;
 
   const handlePause = () => {
     togglePlayPause();
   };
 
-  // Circle covers 60% of available vertical space (minus safe area)
-  const availableHeight = height - insets.top - insets.bottom;
-  const circleSize =
-    gridLayout.numColumns === 9
-      ? availableHeight * 0.75
-      : availableHeight * 0.8;
+  const label = currentNumber < 10 ? `0${currentNumber}` : `${currentNumber}`;
+  const microLabel = play_pause ? "calling" : "paused";
 
-  // Adjust marginTop to visually align with grid
-  const topMargin = availableHeight * 0.2; // ~5% of screen height
+  if (theme.id === "stage") {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity onPress={handlePause} activeOpacity={0.8}>
+          <Text
+            style={{
+              fontFamily: theme.font.display,
+              fontSize: hp(11),
+              lineHeight: hp(11),
+              color: theme.accent,
+            }}
+          >
+            {label}
+          </Text>
+        </TouchableOpacity>
+        <View style={[styles.stageTrack, { backgroundColor: theme.surfaceBorder }]}>
+          <View
+            style={[
+              styles.stageFill,
+              { backgroundColor: theme.accent, width: `${Math.min(progress, 1) * 100}%` },
+            ]}
+          />
+        </View>
+        <View style={styles.stageMetaRow}>
+          <Text style={[styles.stageMeta, { color: theme.textDim, fontFamily: theme.font.body }]}>
+            {microLabel.toUpperCase()}
+          </Text>
+          {previousNumber !== null && (
+            <Text style={[styles.stageMeta, { color: theme.textDim, fontFamily: theme.font.body }]}>
+              PREV {previousNumber}
+            </Text>
+          )}
+        </View>
+      </View>
+    );
+  }
+
+  // Cap the ring by both available height and the column's width so it never
+  // crowds the recent strip / controls / chips beneath it or overflows sideways.
+  const circleSize = Math.min(availableHeight * 0.46, wp(23));
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          paddingTop: insets.top + topMargin,
-          paddingBottom: insets.bottom + 10,
-        },
-      ]}
-    >
+    <View style={styles.container}>
       <View
         style={[styles.timerWrapper, { width: circleSize, height: circleSize }]}
       >
         <CircularProgress
           progress={Math.round(progress * 100)}
           showLabel={false}
-          outerCircleColor="#ffffff"
-          progressCircleColor="#20BD61"
+          outerCircleColor={theme.surfaceBorder}
+          progressCircleColor={theme.accent}
           size={circleSize}
           strokeWidth={circleSize * 0.03}
         />
 
         <TouchableOpacity style={styles.playButton} onPress={handlePause}>
-          {play_pause ? (
-            <Text style={[styles.numberText, { fontSize: circleSize * 0.6 }]}>
-              {currentNumber < 10 ? `0${currentNumber}` : currentNumber}
-            </Text>
-          ) : (
-            <FontAwesome5
-              name="play"
-              size={circleSize * 0.65}
-              color="white"
-              style={{ marginLeft: 50 }}
-            />
-          )}
+          <Text
+            style={{
+              fontFamily: theme.font.display,
+              fontWeight: theme.font.displayWeight as any,
+              fontSize: circleSize * 0.4,
+              color: theme.text,
+            }}
+          >
+            {label}
+          </Text>
+          <Text
+            style={{
+              fontFamily: theme.font.body,
+              fontSize: circleSize * 0.065,
+              letterSpacing: 2,
+              color: theme.textDim,
+              textTransform: "uppercase",
+              marginTop: circleSize * 0.02,
+            }}
+          >
+            {microLabel}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -92,8 +132,6 @@ export default Timer;
  */
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // occupy upper half (adjust as needed)
-    justifyContent: "center",
     alignItems: "center",
   },
   timerWrapper: {
@@ -106,8 +144,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  numberText: {
-    fontWeight: "bold",
-    color: "white",
+  stageTrack: {
+    width: wp(19),
+    height: hp(0.9),
+    borderRadius: hp(0.45),
+    marginTop: hp(2),
+    overflow: "hidden",
+  },
+  stageFill: {
+    height: "100%",
+    borderRadius: hp(0.45),
+  },
+  stageMetaRow: {
+    flexDirection: "row",
+    gap: wp(2.5),
+    marginTop: hp(1.2),
+  },
+  stageMeta: {
+    fontSize: hp(1.4),
+    letterSpacing: 2,
   },
 });

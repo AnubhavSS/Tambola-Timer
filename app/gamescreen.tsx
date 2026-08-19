@@ -1,22 +1,27 @@
 import * as Speech from "expo-speech";
 import React, { useEffect } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import Games from "../components/games";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ControlBar from "../components/controlBar";
 import Grid from "../components/grid";
+import PatternChips from "../components/patternChips";
 import PreviousModal from "../components/previousModal";
-import RadialBackground from "../components/radial";
+import ThemedBackground from "../components/radial";
 import Timer from "../components/timer";
 import { startTambolaGenerator } from "../helper";
 import { useTimerStore } from "../store";
+import { useTheme } from "../theme";
 
 /**
  * Gamescreen Component
- * 
+ *
  * Main game screen for the Tambola Timer app.
  * Displays current and previous numbers, controls, and the number grid.
  */
 const Gamescreen = () => {
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
   // Get state from global store
   const currentNumber = useTimerStore((state) => state.currentNumber);
   const soundVolume = useTimerStore((state) => state.soundVolume);
@@ -83,17 +88,41 @@ useEffect(() => {
   }
 }, [currentNumber]);
 
+  const recent = previousArray.slice(0, 4);
+
   return (
     <View style={{flex:1}}>
-      <RadialBackground/>
-       <PreviousModal/>
-      <View style={styles.container}> 
-       <View style={styles.leftPart}>
-       <Timer />
-       <Games />
-    
+      <ThemedBackground/>
+       <PreviousModal theme={theme}/>
+      <View style={styles.container}>
+       <View style={[styles.leftPart, { paddingBottom: insets.bottom + hp(1) }]}>
+       <Timer theme={theme} />
+
+       {recent.length > 0 && (
+         <View style={styles.recentBlock}>
+           <Text style={[styles.recentLabel, { color: theme.textDim, fontFamily: theme.font.body }]}>Last</Text>
+           <View style={styles.recentRow}>
+             {recent.map((n, i) => (
+               <View
+                 key={`${n}-${i}`}
+                 style={[
+                   styles.recentTile,
+                   { backgroundColor: theme.surface, borderColor: theme.surfaceBorder },
+                 ]}
+               >
+                 <Text style={[styles.recentTileText, { color: theme.text }]}>{n}</Text>
+               </View>
+             ))}
+           </View>
+         </View>
+       )}
+
+       <ControlBar theme={theme} />
+
+       <PatternChips theme={theme} />
+
        </View>
-       <Grid /> 
+       <Grid theme={theme} />
        </View>
     </View>
   );
@@ -121,11 +150,38 @@ const styles = StyleSheet.create({
    leftPart: {
   flexShrink: 0,
   flexGrow: 0,
-  width: wp("28%"),
+  width: wp("29%"),
   alignItems: "center",
   justifyContent: "center",
   marginLeft: wp("3%"),
+  gap: hp(2.2),
 },
 
+  recentBlock: {
+    width: "100%",
+    alignItems: "center",
+  },
+  recentLabel: {
+    fontSize: hp(1.5),
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: hp(0.8),
+  },
+  recentRow: {
+    flexDirection: "row",
+    gap: wp(1.3),
+  },
+  recentTile: {
+    width: hp(5),
+    height: hp(5),
+    borderRadius: hp(1.1),
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  recentTileText: {
+    fontSize: hp(1.9),
+    fontWeight: "600",
+  },
    }
 );

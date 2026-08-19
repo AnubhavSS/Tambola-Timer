@@ -1,17 +1,21 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Slider from "@react-native-community/slider";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { MultiSelect } from 'react-native-element-dropdown';
-import { RadioButton, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import RadialBackground from "../components/radial";
+import ThemedBackground from "../components/radial";
 import { data, DataItem } from "../data";
 import { useTimerStore } from "../store";
+import { ThemeId, THEMES, useTheme } from "../theme";
 
 
 
 const Settingscreen = () => {
+  const router = useRouter();
+  const theme = useTheme();
   const [timerInterval, setTimerInterval] = useState<number>(
     useTimerStore((state) => state.timerInterval)
   );
@@ -20,10 +24,14 @@ const Settingscreen = () => {
   const [checked, setChecked] = useState<string>(
     useTimerStore((state) => state.language)
   );
-const [selected, setSelected] = useState<string[]>([]);
+const [selected, setSelected] = useState<string[]>(
+  useTimerStore((state) => state.games)
+);
  const [text, setText] = useState<string>("");
 
  const [newData, setnewData] = useState<DataItem[]>(data)
+ const themeId = useTimerStore((state) => state.themeId);
+ const setTheme = useTimerStore((state) => state.setTheme);
 
  function handleSubmit(){
   if (text.trim() === "") return;
@@ -45,26 +53,143 @@ const [selected, setSelected] = useState<string[]>([]);
     setText("");
  }
 
+  const cardStyle = [
+    styles.card,
+    { backgroundColor: theme.surface, borderColor: theme.surfaceBorder, borderRadius: theme.radius.card },
+  ];
+
   return (
     <View style={styles.safeArea}>
-      <RadialBackground/>
-      <Text style={styles.title}>Settings</Text>
+      <ThemedBackground/>
+
+      <View style={styles.header}>
+        <Pressable onPress={() => router.back()} style={styles.backButton} hitSlop={12}>
+          <AntDesign name="arrow-left" size={hp(3.2)} color={theme.text} />
+        </Pressable>
+        <View style={styles.headerTitleBlock}>
+          <Text style={[styles.title, { color: theme.text, fontFamily: theme.font.display }]}>Settings</Text>
+          <Text style={[styles.savedNote, { color: theme.textDim, fontFamily: theme.font.body }]}>Saved automatically</Text>
+        </View>
+        <View style={{ width: hp(3.2) }} />
+      </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
 
-     {/*Games*/}
-      <View  style={styles.card}>
+      {/* Play settings */}
+      <View style={cardStyle}>
+        <Text style={[styles.cardTitle, { color: theme.text, fontFamily: theme.font.display }]}>Play settings</Text>
+
+        <View style={styles.settingRow}>
+          <View style={styles.settingLabelRow}>
+            <Text style={[styles.settingLabel, { color: theme.textDim, fontFamily: theme.font.body }]}>Call interval</Text>
+            <Text style={[styles.settingValue, { color: theme.text }]}>{Math.round(timerInterval)}s</Text>
+          </View>
+          <Slider
+            style={styles.slider}
+            minimumValue={3}
+            maximumValue={15}
+            minimumTrackTintColor={theme.accent}
+            maximumTrackTintColor={theme.surfaceBorder}
+            thumbTintColor={theme.accent}
+            value={timerInterval}
+            onValueChange={(value) => {
+              setTimerInterval(value);
+              useTimerStore.setState({ timerInterval: Math.round(value) });
+            }}
+          />
+        </View>
+
+        <View style={styles.settingRow}>
+          <View style={styles.settingLabelRow}>
+            <Text style={[styles.settingLabel, { color: theme.textDim, fontFamily: theme.font.body }]}>Voice speed</Text>
+            <Text style={[styles.settingValue, { color: theme.text }]}>{Math.round(rate)}</Text>
+          </View>
+          <Slider
+            style={styles.slider}
+            minimumValue={0}
+            maximumValue={10}
+            minimumTrackTintColor={theme.accent}
+            maximumTrackTintColor={theme.surfaceBorder}
+            thumbTintColor={theme.accent}
+            value={rate}
+            onValueChange={(value) => {
+              setRate(value);
+              useTimerStore.setState({ rate: Math.round(value) / 10 });
+            }}
+          />
+        </View>
+
+        <View style={styles.settingRow}>
+          <View style={styles.settingLabelRow}>
+            <Text style={[styles.settingLabel, { color: theme.textDim, fontFamily: theme.font.body }]}>Volume</Text>
+            <Text style={[styles.settingValue, { color: theme.text }]}>{Math.round(soundVolume)}</Text>
+          </View>
+          <Slider
+            style={styles.slider}
+            minimumValue={0}
+            maximumValue={10}
+            minimumTrackTintColor={theme.accent}
+            maximumTrackTintColor={theme.surfaceBorder}
+            thumbTintColor={theme.accent}
+            value={soundVolume}
+            onValueChange={(value) => {
+              setSoundVolume(value);
+              useTimerStore.setState({ soundVolume: Math.round(value) / 10 });
+            }}
+          />
+        </View>
+
+        <View style={styles.settingRow}>
+          <Text style={[styles.settingLabel, { color: theme.textDim, fontFamily: theme.font.body, marginBottom: hp(1) }]}>Announce in</Text>
+          <View style={[styles.segmented, { backgroundColor: theme.bg.type === "solid" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.15)", borderColor: theme.surfaceBorder }]}>
+            {[
+              { code: "en-US", label: "English" },
+              { code: "hi-IN", label: "हिंदी" },
+            ].map((lang) => {
+              const active = checked === lang.code;
+              return (
+                <Pressable
+                  key={lang.code}
+                  style={[
+                    styles.segment,
+                    { backgroundColor: active ? theme.accent : "transparent" },
+                  ]}
+                  onPress={() => {
+                    setChecked(lang.code);
+                    useTimerStore.setState({ language: lang.code });
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.segmentText,
+                      { color: active ? theme.accentOn : theme.text, fontFamily: theme.font.body },
+                    ]}
+                  >
+                    {lang.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+      </View>
+
+      {/* Patterns in play */}
+      <View style={cardStyle}>
         <View style={styles.cardTitleRow}>
-          <Text style={styles.cardTitle}>Games</Text>
-                </View>
-                  <MultiSelect
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
+          <Text style={[styles.cardTitle, { color: theme.text, fontFamily: theme.font.display }]}>Patterns in play</Text>
+          <Text style={[styles.countBadge, { color: theme.textDim }]}>{selected.length} selected</Text>
+        </View>
+
+        <MultiSelect
+          style={[styles.dropdown, { borderBottomColor: theme.surfaceBorder }]}
+          placeholderStyle={[styles.placeholderStyle, { color: theme.textDim }]}
+          selectedTextStyle={[styles.selectedTextStyle, { color: theme.text }]}
+          inputSearchStyle={[styles.inputSearchStyle, { backgroundColor: theme.popupSurface, color: theme.text }]}
           iconStyle={styles.iconStyle}
-          containerStyle={{backgroundColor:"rgba(255,255,255,0.7)",height:hp(75)}}
-          itemTextStyle={{fontWeight:"bold",fontSize:hp(3)}}
+          containerStyle={{ backgroundColor: theme.popupSurface, borderColor: theme.surfaceBorder, borderWidth: 1, height: hp(75) }}
+          itemTextStyle={{fontWeight:"bold", fontSize:hp(2.2), color: theme.text}}
+          activeColor={theme.accentTint}
           search
           data={newData}
           labelField="label"
@@ -79,132 +204,62 @@ const [selected, setSelected] = useState<string[]>([]);
           renderLeftIcon={() => (
             <AntDesign
               style={styles.icon}
-              color="white"
+              color={theme.textDim}
               name="safety"
-              size={20}
+              size={16}
             />
           )}
-          selectedStyle={styles.selectedStyle}
+          selectedStyle={[styles.selectedStyle, { backgroundColor: theme.accentTint, borderColor: theme.accent }]}
         />
-    <TextInput
-      textColor="white"
-      value={text}
-      onChangeText={text => setText(text)}
-      placeholder="Enter game"
-      placeholderTextColor="white"
-      underlineColor="white"
-      style={styles.textInput}
-      activeUnderlineColor="white" 
-      onSubmitEditing={() => handleSubmit()}
-  
-    />
 
-   
-      </View>
-
-      {/* Timer Interval */}
-      <View  style={styles.card}>
-        <View style={styles.cardTitleRow}>
-          <Text style={styles.cardTitle}>Timer Interval</Text>
-          <Text style={styles.numberText}>
-            {Math.round(timerInterval)} <Text style={{fontSize:hp(3)}}>seconds</Text>
-          </Text>
-        </View>
-
-          <Slider
-            style={styles.slider}
-            minimumValue={3}
-            maximumValue={15}
-            minimumTrackTintColor="white"
-            maximumTrackTintColor="#000000"
-            thumbTintColor="white"
-            value={timerInterval}
-            onValueChange={(value) => {
-              setTimerInterval(value);
-              useTimerStore.setState({ timerInterval: Math.round(value) });
-            }}
+        <View style={styles.addRow}>
+          <TextInput
+            textColor={theme.text}
+            value={text}
+            onChangeText={text => setText(text)}
+            placeholder="Add your own pattern…"
+            placeholderTextColor={theme.textDim}
+            underlineColor={theme.surfaceBorder}
+            style={styles.textInput}
+            activeUnderlineColor={theme.accent}
+            onSubmitEditing={() => handleSubmit()}
           />
-      </View>
-
-      {/*Sound Volume*/}
-      <View  style={styles.card}>
-        <View style={styles.cardTitleRow}>
-          <Text style={styles.cardTitle}>Sound Volume</Text>
-          <Text style={styles.numberText}>{Math.round(soundVolume)} </Text>
-        </View>
-        
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={10}
-            minimumTrackTintColor="white"
-            maximumTrackTintColor="#000000"
-            thumbTintColor="white"
-            value={soundVolume}
-            onValueChange={(value) => {
-              setSoundVolume(value);
-              useTimerStore.setState({ soundVolume: Math.round(value) / 10 });
-            }}
-          />
-       
-      </View>
-
-      {/*Language*/}
-      <View style={styles.card}>
-        <Text style={[styles.cardTitle, styles.cardTitleRow]}>Language</Text>
-        <View style={styles.radioContainer}>
-          {/*English*/}
-          <View style={styles.radioButton}>
-            <RadioButton
-              value="en-US"
-              status={checked === "en-US" ? "checked" : "unchecked"}
-              onPress={() => {
-                setChecked("en-US");
-                useTimerStore.setState({ language: "en-US" });
-              }}
-              color="white"
-            />
-            <Text style={styles.radioText}>English</Text>
-          </View>
-
-          {/*Hindi*/}
-          <View style={styles.radioButton}>
-            <RadioButton
-              value="hi-IN"
-              status={checked === "hi-IN" ? "checked" : "unchecked"}
-              onPress={() => {
-                setChecked("hi-IN");
-                useTimerStore.setState({ language: "hi-IN" });
-              }}
-              color="white"
-            />
-            <Text style={styles.radioText}>हिंदी</Text>
-          </View>
+          <Pressable
+            style={[styles.addButton, { backgroundColor: theme.accent }]}
+            onPress={() => handleSubmit()}
+          >
+            <Text style={[styles.addButtonText, { color: theme.accentOn }]}>Add</Text>
+          </Pressable>
         </View>
       </View>
 
-      {/*Rate*/}
-      <View style={styles.card}>
-        <View style={styles.cardTitleRow}>
-          <Text style={styles.cardTitle}>Rate</Text>
-          <Text style={styles.numberText}>{Math.round(rate)} </Text>
+      {/* UI mode */}
+      <View style={cardStyle}>
+        <Text style={[styles.cardTitle, { color: theme.text, fontFamily: theme.font.display }]}>UI mode</Text>
+        <View style={styles.themeRow}>
+          {(Object.keys(THEMES) as ThemeId[]).map((id) => {
+            const t = THEMES[id];
+            const isSelected = themeId === id;
+            return (
+              <Pressable
+                key={id}
+                onPress={() => setTheme(id)}
+                style={[
+                  styles.themeTile,
+                  {
+                    backgroundColor: t.bg.stops[0],
+                    borderColor: isSelected ? theme.accent : "transparent",
+                  },
+                ]}
+              >
+                <View style={[styles.themeSwatch, { backgroundColor: t.accent }]} />
+                <Text style={[styles.themeTileLabel, { color: t.text }]}>{t.name}</Text>
+              </Pressable>
+            );
+          })}
         </View>
-      
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={10}
-            minimumTrackTintColor="white"
-            maximumTrackTintColor="#000000"
-            thumbTintColor="white"
-            value={rate}
-            onValueChange={(value) => {
-              setRate(value);
-              useTimerStore.setState({ rate: Math.round(value) / 10 });
-            }}
-          />
-        </View>
-     
+      </View>
+
       </ScrollView>
     </View>
   );
@@ -216,12 +271,26 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: hp(2),
+    paddingHorizontal: wp(4),
+  },
+  backButton: {
+    padding: hp(0.5),
+  },
+  headerTitleBlock: {
+    alignItems: "center",
+  },
   title: {
-    fontSize: hp(7),
+    fontSize: hp(4.5),
     fontWeight: "bold",
-    color: "rgba(255,255,255,0.8)",
-   alignSelf: "center",
-   paddingTop: hp(2),
+  },
+  savedNote: {
+    fontSize: hp(1.6),
+    marginTop: hp(0.3),
   },
   scrollView: {
     display: "flex",
@@ -229,84 +298,108 @@ const styles = StyleSheet.create({
     flexWrap: "wrap", // wraps to the next line
     justifyContent: "space-evenly", // spacing between items
     padding: 10,
+    paddingBottom: hp(4),
     marginLeft: wp(4),
-    
-   
+
+
   },
   card: {
     marginHorizontal: "auto",
     width: "40%",
-    borderRadius: 40,
-    padding: 5,
+    padding: wp(1.5),
     marginVertical: wp(2),
-    backgroundColor: "rgba(255, 255, 255, 0.09)", // translucent layer
-    borderWidth: 2,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderWidth: 1.5,
   },
   cardTitleRow: {
     flexDirection: "row",
-    justifyContent: "space-between", // or "space-between" or whatever you want
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: hp(2),
+    paddingHorizontal: hp(1.5),
+    paddingTop: hp(1.5),
   },
   cardTitle: {
-    fontSize: hp(6),
+    fontSize: hp(3.2),
     fontWeight: "bold",
-    color: "rgba(255,255,255,0.8)",
+    padding: hp(1.5),
   },
-  numberText: {
-    fontSize: hp(5.7),
+  countBadge: {
+    fontSize: hp(1.6),
+    fontWeight: "600",
+  },
+  settingRow: {
+    paddingHorizontal: hp(1.5),
+    marginBottom: hp(1.5),
+  },
+  settingLabelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  settingLabel: {
+    fontSize: hp(2),
+    fontWeight: "600",
+  },
+  settingValue: {
+    fontSize: hp(2.4),
     fontWeight: "bold",
-    color: "#ffffff", // needs '#' prefix
   },
   slider: {
-    width: wp(35),
-    height: wp(10),
-    alignSelf: "center",
+    width: "100%",
+    height: hp(4),
   },
-  radioContainer: {
-    display: "flex",
+  segmented: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
+    borderRadius: 14,
+    borderWidth: 1,
+    padding: 4,
+    alignSelf: "flex-start",
   },
-  radioButton: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: wp(3),
+  segment: {
+    borderRadius: 10,
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(2.5),
   },
-  radioText: {
-    fontSize: hp(5),
-    fontWeight: "bold",
-    color: "white",
-    fontStyle: "italic",
-    paddingRight: wp(3),
+  segmentText: {
+    fontSize: hp(1.8),
+    fontWeight: "600",
   },
     dropdown: {
       height: hp(9),
       backgroundColor: 'transparent',
-      borderBottomColor: 'gray',
       borderBottomWidth: 0.5,
       width: wp(33),
       alignSelf:"center",
       marginBottom: wp(2),
-      
+
+    },
+    addRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      width: wp(33),
+      alignSelf: "center",
+      gap: wp(1),
     },
     textInput:{
       backgroundColor:"transparent",
       marginBottom:hp(2),
-      width:wp(33),
-      marginHorizontal:"auto",
-      fontSize:hp(4)
+      flex: 1,
+      fontSize:hp(2.2)
+    },
+    addButton: {
+      borderRadius: 10,
+      paddingVertical: hp(1.2),
+      paddingHorizontal: wp(2),
+      marginBottom: hp(2),
+    },
+    addButtonText: {
+      fontWeight: "700",
+      fontSize: hp(1.8),
     },
     placeholderStyle: {
       fontSize: 15,
-      color: "white",
     },
     selectedTextStyle: {
       fontSize: 14,
-      color: "white",
     },
     iconStyle: {
       width: 20,
@@ -322,5 +415,33 @@ const styles = StyleSheet.create({
     selectedStyle: {
       borderRadius: 12,
       marginHorizontal: wp(2),
+      borderWidth: 1,
+    },
+    themeRow: {
+      flexDirection: "row",
+      justifyContent: "space-around",
+      flexWrap: "wrap",
+      paddingHorizontal: wp(2),
+      paddingBottom: wp(2),
+      gap: wp(2),
+    },
+    themeTile: {
+      width: wp(10),
+      borderRadius: 16,
+      borderWidth: 2,
+      alignItems: "center",
+      paddingVertical: hp(2),
+      paddingHorizontal: wp(1),
+    },
+    themeSwatch: {
+      width: wp(4),
+      height: wp(4),
+      borderRadius: wp(2),
+      marginBottom: hp(1),
+    },
+    themeTileLabel: {
+      fontSize: hp(2.6),
+      fontWeight: "600",
+      textAlign: "center",
     },
 });

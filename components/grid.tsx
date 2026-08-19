@@ -1,57 +1,91 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { useTimerStore } from "../store";
+import { Theme } from "../theme";
 
 /**
  * Grid Component
  *
- * Displays a 6-column grid of numbers 1-90 for Tambola/Housie game.
- * Numbers that have been called are highlighted with a different background color.
+ * Displays the 1-90 Tambola board. Cell state precedence is
+ * current > previous > called > idle.
  */
-const Grid = () => {
-  // Get the history of called numbers from the global store
+const Grid = ({ theme }: { theme: Theme }) => {
   const history = useTimerStore((state) => state.history);
+  const currentNumber = useTimerStore((state) => state.currentNumber);
   const previousNumber = useTimerStore((state) => state.previousNumber);
   const gridLayout = useTimerStore((state) => state.gridLayout);
-
-
 
   // Create an array of numbers from 1 to 90 for the Tambola board
   let gridData = Array.from({ length: 90 }, (_, i) => i + 1);
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-  <View style={[styles.grid]}>
-    <FlatList
-      data={gridData}
-      keyExtractor={(item, index) => index.toString()}
-      numColumns={gridLayout.numColumns}
-      scrollEnabled={false} // prevent scrolling
-      renderItem={({ item }) => {
-        let bgColor = "rgba(255, 255, 255, 0.7)";
-        let color = "black";
-        if (history.includes(item)) { bgColor = "#20BD61"; color = "white"; }
-        if (item === previousNumber) { bgColor = "red"; color = "white"; }
-
-        return (
-          <View
-            style={[
-              styles.cell,
-              {
-                width: gridLayout.cellSize,
-                height: gridLayout.cellSize,
-                backgroundColor: bgColor,
-              },
-            ]}
-          >
-            <Text style={[styles.cellText, { color }, {fontSize: gridLayout.cellSize*0.5}]}>{item}</Text>
+      <View style={[styles.grid, { backgroundColor: theme.surface, borderColor: theme.surfaceBorder, borderRadius: theme.radius.card }]}>
+        <View style={styles.header}>
+          <Text style={[styles.headerTitle, { color: theme.text, fontFamily: theme.font.display }]}>Board</Text>
+          <View style={styles.legendRow}>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: theme.cell.calledBg }]} />
+              <Text style={[styles.legendText, { color: theme.textDim }]}>Called</Text>
+            </View>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: theme.cell.prevBg }]} />
+              <Text style={[styles.legendText, { color: theme.textDim }]}>Previous</Text>
+            </View>
           </View>
-        );
-      }}
-    />
-  </View>
-</SafeAreaView>
+          <Text style={[styles.counter, { color: theme.textDim }]}>{history.length}/90</Text>
+        </View>
+
+        <FlatList
+          data={gridData}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={gridLayout.numColumns}
+          scrollEnabled={false} // prevent scrolling
+          renderItem={({ item }) => {
+            let bg = theme.cell.idleBg;
+            let fg = theme.cell.idleFg;
+            let border = theme.cell.idleBorder ?? "transparent";
+
+            if (history.includes(item)) {
+              bg = theme.cell.calledBg;
+              fg = theme.cell.calledFg;
+              border = theme.cell.calledBorder ?? border;
+            }
+            if (item === previousNumber) {
+              bg = theme.cell.prevBg;
+              fg = theme.cell.prevFg;
+            }
+            if (item === currentNumber) {
+              bg = theme.cell.curBg;
+              fg = theme.cell.curFg;
+            }
+
+            return (
+              <View
+                style={[
+                  styles.cell,
+                  {
+                    width: gridLayout.cellSize,
+                    height: gridLayout.cellSize,
+                    backgroundColor: bg,
+                    borderColor: border,
+                    borderWidth: border === "transparent" ? 0 : 1,
+                    borderRadius: theme.radius.cell,
+                  },
+                ]}
+              >
+                <Text style={[styles.cellText, { color: fg }, { fontSize: gridLayout.cellSize * 0.5 }]}>{item}</Text>
+              </View>
+            );
+          }}
+        />
+      </View>
+    </SafeAreaView>
 
   );
 };
@@ -65,20 +99,49 @@ const styles = StyleSheet.create({
   grid: {
   alignItems: "center",
   justifyContent: "center",
-  backgroundColor: "rgba(238, 238, 238, 0.6)",
-  borderRadius: 30,
-  padding: 10,
+  borderWidth: 1,
+  padding: wp(1.2),
   overflow: "hidden",
 },
+  header: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: wp(1),
+    paddingBottom: hp(1),
+  },
+  headerTitle: {
+    fontSize: hp(2.2),
+  },
+  legendRow: {
+    flexDirection: "row",
+    gap: wp(2),
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: wp(0.6),
+  },
+  legendDot: {
+    width: hp(1.2),
+    height: hp(1.2),
+    borderRadius: hp(0.6),
+  },
+  legendText: {
+    fontSize: hp(1.4),
+  },
+  counter: {
+    fontSize: hp(1.6),
+    fontWeight: "600",
+  },
 cell: {
   margin: 3,
   justifyContent: "center",
   alignItems: "center",
-  borderRadius: 8,
 },
 cellText: {
-  // fontSize: 18,
-  fontWeight: "400",
+  fontWeight: "600",
 },
 
 });

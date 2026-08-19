@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=Anton&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0eee9;font-family:"DM Sans",system-ui,sans-serif}
+a{color:#2a78d6}a:hover{color:#12539f}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.dv-opts{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.3 "DM Sans",system-ui,sans-serif;color:rgba(0,0,0,.55)}
+.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}
+.dv-next{margin:22px 0 0;font:12px/1.5 "DM Sans",system-ui,sans-serif;color:rgba(0,0,0,.5)}
+.dv-row{display:flex;gap:22px;align-items:flex-start}
+.dv-cap{font:500 10.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:rgba(0,0,0,.4);margin:0 0 7px}
+.bez{padding:9px;background:#17171c;border-radius:26px;box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 0 0 1px rgba(255,255,255,.06)}
+.scr{box-sizing:border-box;width:880px;height:420px;border-radius:18px;overflow:hidden;position:relative}
+@keyframes pulseA{0%,100%{box-shadow:0 0 0 0 rgba(43,224,122,.45)}50%{box-shadow:0 0 0 14px rgba(43,224,122,0)}}
+</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Three directions for Tambola Timer — landscape, built from your current flow (Home → Game → Settings)</span></div>
+
+<div class="dv-opts">
+
+<!-- ============ 1a MIDNIGHT COURT ============ -->
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Midnight Court — dark, glassy, readable across a lit room. Closest to your current green.</div>
+<div class="dv-row">
+
+<div><p class="dv-cap">Home</p>
+<div class="bez"><div class="scr" style="background:radial-gradient(120% 140% at 20% 0%,#1B2A5E 0%,#101A3A 45%,#070B18 100%);display:flex;padding:26px 30px;gap:26px;font-family:Sora,sans-serif;color:#fff">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="position:relative;width:96px;height:96px;border-radius:999px;background:radial-gradient(circle at 32% 26%,#6BF5AA,#17B565 58%,#0A6B39);box-shadow:0 14px 34px rgba(43,224,122,.4),inset 0 -8px 18px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center">
+          <svg width="96" height="96" viewBox="0 0 96 96" style="position:absolute;inset:0">
+            <circle cx="48" cy="48" r="41" fill="none" stroke="rgba(4,20,12,.35)" stroke-width="5" stroke-dasharray="2.5 20.6" stroke-linecap="round"></circle>
+          </svg>
+          <div style="position:relative;z-index:1;width:64px;height:64px;border-radius:999px;background:rgba(4,20,12,.24);display:flex;align-items:center;justify-content:center;font:800 26px/1 Sora,sans-serif;color:#EAFFF3;font-variant-numeric:tabular-nums">90</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font:800 27px/1 Sora,sans-serif;letter-spacing:-.03em">Tambola<br>Timer</div>
+          <div style="font:600 10px Sora,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#5DF0A0">Auto caller</div>
+        </div>
+      </div>
+      <div style="font:400 13px/1.4 Sora,sans-serif;color:rgba(255,255,255,.55);max-width:250px">Calls all 90 numbers hands free, in English or Hindi.</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;max-width:330px">
+      <div style="padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font:500 11.5px Sora,sans-serif;color:rgba(255,255,255,.75)">Voice: English</div>
+      <div style="padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font:500 11.5px Sora,sans-serif;color:rgba(255,255,255,.75)">Every {{ intervalLabel }}</div>
+      <div style="padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font:500 11.5px Sora,sans-serif;color:rgba(255,255,255,.75)">5 patterns</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font:400 11.5px Sora,sans-serif;color:rgba(255,255,255,.45)">
+      <div style="width:18px;height:18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font:700 11px Sora,sans-serif">i</div>
+      How to play
+    </div>
+  </div>
+  <div style="width:400px;display:flex;flex-direction:column;justify-content:center;gap:14px">
+    <div onClick="{{ noop }}" style="border-radius:26px;padding:24px 26px;background:linear-gradient(140deg,#2BE07A,#12A65B);color:#04140C;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 14px 34px rgba(43,224,122,.3);animation:pulseA 3.2s ease-out infinite" style-hover="transform:translateY(-2px)">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="font:800 26px/1 Sora,sans-serif;letter-spacing:-.02em">Start new game</div>
+        <div style="font:500 12px/1 Sora,sans-serif;opacity:.7">Board resets · 90 numbers shuffled</div>
+      </div>
+      <div style="width:46px;height:46px;border-radius:999px;background:rgba(4,20,12,.16);display:flex;align-items:center;justify-content:center;font:700 18px Sora,sans-serif">▶</div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="flex:1;border-radius:22px;padding:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);cursor:pointer" style-hover="background:rgba(255,255,255,.12)">
+        <div style="font:700 16px/1 Sora,sans-serif;margin-bottom:6px">Continue</div>
+        <div style="font:400 11.5px/1.3 Sora,sans-serif;color:rgba(255,255,255,.5)">Resume at {{ calledCount }} of 90</div>
+      </div>
+      <div style="flex:1;border-radius:22px;padding:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);cursor:pointer" style-hover="background:rgba(255,255,255,.12)">
+        <div style="font:700 16px/1 Sora,sans-serif;margin-bottom:6px">Settings</div>
+        <div style="font:400 11.5px/1.3 Sora,sans-serif;color:rgba(255,255,255,.5)">Speed, voice, patterns</div>
+      </div>
+    </div>
+    <div style="height:34px;border-radius:12px;border:1px dashed rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font:500 10px Sora,sans-serif;letter-spacing:.1em;color:rgba(255,255,255,.3)">BANNER AD SLOT</div>
+  </div>
+</div></div></div>
+
+<div><p class="dv-cap">Game — tap the ring to pause</p>
+<div class="bez"><div class="scr" style="background:radial-gradient(120% 140% at 15% 10%,#1B2A5E 0%,#101A3A 45%,#070B18 100%);display:flex;padding:14px 16px;gap:16px;font-family:Sora,sans-serif;color:#fff">
+  <div style="width:392px;display:flex;flex-direction:column;align-items:center;justify-content:space-between">
+    <div onClick="{{ toggle }}" style="position:relative;width:236px;height:236px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:4px">
+      <svg width="236" height="236" viewBox="0 0 236 236" style="position:absolute;inset:0;transform:rotate(-90deg)">
+        <circle cx="118" cy="118" r="106" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="10"></circle>
+        <circle cx="118" cy="118" r="106" fill="none" stroke="#2BE07A" stroke-width="10" stroke-linecap="round" stroke-dasharray="666" style="stroke-dashoffset:{{ ringOffset }};filter:drop-shadow(0 0 10px rgba(43,224,122,.55))"></circle>
+      </svg>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <div style="font:800 96px/1 Sora,sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums">{{ currentLabel }}</div>
+        <div style="font:600 11px Sora,sans-serif;letter-spacing:.14em;color:{{ stateColorA }}">{{ stateLabel }}</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="font:500 11.5px Sora,sans-serif;color:rgba(255,255,255,.5)">Last</div>
+      <div style="display:flex;gap:6px">
+        <sc-for list="{{ recent }}" as="r" hint-placeholder-count="4">
+          <div style="width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:700 15px Sora,sans-serif;font-variant-numeric:tabular-nums;background:{{ r.bg }};color:{{ r.fg }};border:1px solid rgba(255,255,255,.12)">{{ r.n }}</div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="width:100%;display:flex;gap:8px">
+      <div onClick="{{ toggle }}" style="flex:1;height:52px;border-radius:16px;background:linear-gradient(140deg,#2BE07A,#12A65B);color:#04140C;display:flex;align-items:center;justify-content:center;gap:8px;font:700 15px Sora,sans-serif;cursor:pointer">{{ toggleLabel }}</div>
+      <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font:600 11px Sora,sans-serif;cursor:pointer" style-hover="background:rgba(255,255,255,.14)">↺</div>
+      <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font:600 11px Sora,sans-serif;cursor:pointer" style-hover="background:rgba(255,255,255,.14)">⚙</div>
+    </div>
+    <div style="width:100%;display:flex;gap:6px;flex-wrap:wrap">
+      <sc-for list="{{ patterns }}" as="p" hint-placeholder-count="5">
+        <div onClick="{{ p.onClick }}" style="padding:6px 11px;border-radius:999px;font:600 11px Sora,sans-serif;cursor:pointer;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bc }}">{{ p.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="flex:1;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:12px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font:700 13px Sora,sans-serif;letter-spacing:-.01em">Board</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:5px;font:500 10.5px Sora,sans-serif;color:rgba(255,255,255,.5)"><div style="width:9px;height:9px;border-radius:3px;background:#2BE07A"></div>called</div>
+        <div style="display:flex;align-items:center;gap:5px;font:500 10.5px Sora,sans-serif;color:rgba(255,255,255,.5)"><div style="width:9px;height:9px;border-radius:3px;background:#FF5A5F"></div>previous</div>
+        <div style="font:700 12px Sora,sans-serif;font-variant-numeric:tabular-nums">{{ calledCount }}/90</div>
+      </div>
+    </div>
+    <div style="display:grid;gap:4px;justify-content:center;grid-template-columns:{{ gridCols }}">
+      <sc-for list="{{ cellsA }}" as="c" hint-placeholder-count="90">
+        <div style="width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font:600 14.5px Sora,sans-serif;font-variant-numeric:tabular-nums;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.ring }};transition:background .25s,color .25s">{{ c.n }}</div>
+      </sc-for>
+    </div>
+  </div>
+</div></div></div>
+
+<div><p class="dv-cap">Settings</p>
+<div class="bez"><div class="scr" style="background:radial-gradient(120% 140% at 80% 0%,#1B2A5E 0%,#101A3A 45%,#070B18 100%);padding:18px 22px;font-family:Sora,sans-serif;color:#fff;display:flex;flex-direction:column;gap:14px">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="width:34px;height:34px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font:600 14px Sora,sans-serif;cursor:pointer">←</div>
+    <div style="font:800 22px/1 Sora,sans-serif;letter-spacing:-.02em">Settings</div>
+    <div style="margin-left:auto;font:500 11.5px Sora,sans-serif;color:rgba(255,255,255,.45)">Saved automatically</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1">
+    <div style="border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+          <div style="font:700 14px Sora,sans-serif">Call interval</div>
+          <div style="font:800 18px Sora,sans-serif;font-variant-numeric:tabular-nums">{{ intervalLabel }}</div>
+        </div>
+        <div style="height:6px;border-radius:999px;background:rgba(255,255,255,.14);position:relative">
+          <div style="position:absolute;inset:0 auto 0 0;width:{{ intervalPct }};border-radius:999px;background:#2BE07A"></div>
+          <div style="position:absolute;top:-6px;left:{{ intervalPct }};width:18px;height:18px;margin-left:-9px;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+          <div style="font:700 14px Sora,sans-serif">Voice speed</div>
+          <div style="font:800 18px Sora,sans-serif">Normal</div>
+        </div>
+        <div style="height:6px;border-radius:999px;background:rgba(255,255,255,.14);position:relative">
+          <div style="position:absolute;inset:0 auto 0 0;width:52%;border-radius:999px;background:#2BE07A"></div>
+          <div style="position:absolute;top:-6px;left:52%;width:18px;height:18px;margin-left:-9px;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+          <div style="font:700 14px Sora,sans-serif">Volume</div>
+          <div style="font:800 18px Sora,sans-serif">70%</div>
+        </div>
+        <div style="height:6px;border-radius:999px;background:rgba(255,255,255,.14);position:relative">
+          <div style="position:absolute;inset:0 auto 0 0;width:70%;border-radius:999px;background:#2BE07A"></div>
+          <div style="position:absolute;top:-6px;left:70%;width:18px;height:18px;margin-left:-9px;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>
+        </div>
+      </div>
+      <div style="margin-top:auto">
+        <div style="font:700 14px Sora,sans-serif;margin-bottom:9px">Announce in</div>
+        <div style="display:flex;gap:6px;padding:4px;border-radius:14px;background:rgba(0,0,0,.28)">
+          <div style="flex:1;padding:9px;border-radius:11px;text-align:center;font:700 13px Sora,sans-serif;background:#2BE07A;color:#04140C">English</div>
+          <div style="flex:1;padding:9px;border-radius:11px;text-align:center;font:600 13px Sora,sans-serif;color:rgba(255,255,255,.6)">हिंदी</div>
+        </div>
+      </div>
+    </div>
+    <div style="border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font:700 14px Sora,sans-serif">Patterns in play</div>
+        <div style="font:500 11.5px Sora,sans-serif;color:rgba(255,255,255,.45)">{{ patternCount }} selected</div>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <sc-for list="{{ allPatterns }}" as="p" hint-placeholder-count="14">
+          <div onClick="{{ p.onClick }}" style="padding:7px 12px;border-radius:999px;font:600 12px Sora,sans-serif;cursor:pointer;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bc }}">{{ p.label }}</div>
+        </sc-for>
+      </div>
+      <div style="margin-top:auto;display:flex;gap:8px;align-items:center;border-radius:14px;background:rgba(0,0,0,.25);padding:6px 6px 6px 14px">
+        <div style="flex:1;font:400 12.5px Sora,sans-serif;color:rgba(255,255,255,.4)">Add your own pattern…</div>
+        <div style="padding:9px 16px;border-radius:10px;background:rgba(43,224,122,.18);color:#2BE07A;font:700 12px Sora,sans-serif;cursor:pointer">Add</div>
+      </div>
+    </div>
+  </div>
+</div></div></div>
+
+<div><p class="dv-cap">History sheet</p>
+<div class="bez"><div class="scr" style="background:radial-gradient(120% 140% at 15% 10%,#1B2A5E 0%,#101A3A 45%,#070B18 100%);font-family:Sora,sans-serif;color:#fff;position:relative">
+  <div style="position:absolute;inset:0;backdrop-filter:blur(2px);background:rgba(4,7,16,.6)"></div>
+  <div style="position:absolute;inset:auto 0 0 0;border-radius:26px 26px 0 0;background:#0D1430;border-top:1px solid rgba(255,255,255,.14);padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 -20px 60px rgba(0,0,0,.5)">
+    <div style="width:44px;height:4px;border-radius:999px;background:rgba(255,255,255,.2);align-self:center"></div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between">
+      <div style="font:800 20px Sora,sans-serif;letter-spacing:-.02em">Called so far</div>
+      <div style="font:500 12px Sora,sans-serif;color:rgba(255,255,255,.5)">newest first · {{ calledCount }} numbers</div>
+    </div>
+    <div style="display:flex;gap:8px;overflow:hidden">
+      <sc-for list="{{ historyRow }}" as="h" hint-placeholder-count="12">
+        <div style="min-width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;font:800 26px Sora,sans-serif;font-variant-numeric:tabular-nums;background:{{ h.bg }};color:{{ h.fg }};border:1px solid rgba(255,255,255,.1)">{{ h.n }}</div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div style="flex:1;height:46px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font:700 13px Sora,sans-serif;cursor:pointer">Repeat last call</div>
+      <div style="flex:1;height:46px;border-radius:14px;background:linear-gradient(140deg,#2BE07A,#12A65B);color:#04140C;display:flex;align-items:center;justify-content:center;font:700 13px Sora,sans-serif;cursor:pointer">Back to board</div>
+    </div>
+  </div>
+</div></div></div>
+
+</div>
+</div>
+
+<!-- ============ 1b FESTIVE PAPER ============ -->
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Festive Paper — warm light theme, serif display, party-in-the-living-room feel.</div>
+<div class="dv-row">
+
+<div><p class="dv-cap">Home</p>
+<div class="bez"><div class="scr" style="background:#FBF3E4;background-image:radial-gradient(circle at 12% 18%,rgba(233,162,39,.18) 0,transparent 38%),radial-gradient(circle at 88% 84%,rgba(122,21,51,.12) 0,transparent 42%);display:flex;padding:28px 32px;gap:28px;font-family:'DM Sans',sans-serif;color:#2A1218">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px">
+    <div style="font:400 15px 'DM Sans',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#7A1533">Housie night</div>
+    <div style="display:flex;align-items:center;gap:18px">
+      <div style="position:relative;width:132px;height:92px;flex:none">
+        <div style="position:absolute;inset:6px 0 0 8px;border-radius:12px;background:#F3E0BE;transform:rotate(6deg);box-shadow:0 6px 16px rgba(122,21,51,.14)"></div>
+        <div style="position:absolute;inset:0;border-radius:12px;background:#fff;border:1px solid rgba(42,18,24,.1);transform:rotate(-5deg);padding:10px;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(3,1fr);gap:3px;box-shadow:0 10px 24px rgba(122,21,51,.16)">
+          <div style="border-radius:3px;background:#E9A227"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:#7A1533"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div>
+          <div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:#1F7A5C"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:#E9A227"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div>
+          <div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:#7A1533"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:rgba(42,18,24,.07)"></div><div style="border-radius:3px;background:#1F7A5C"></div>
+        </div>
+      </div>
+      <div style="font:400 42px/.92 'Instrument Serif',serif;letter-spacing:-.02em;color:#2A1218">Tambola<br><span style="font-style:italic;color:#7A1533">Timer</span></div>
+    </div>
+    <div style="font:400 14px/1.5 'DM Sans',sans-serif;color:rgba(42,18,24,.6);max-width:260px">Calls the numbers so you can play along with everyone else.</div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
+      <div style="padding:7px 13px;border-radius:999px;background:#fff;border:1px solid rgba(42,18,24,.12);font:500 11.5px 'DM Sans',sans-serif">Every {{ intervalLabel }}</div>
+      <div style="padding:7px 13px;border-radius:999px;background:#fff;border:1px solid rgba(42,18,24,.12);font:500 11.5px 'DM Sans',sans-serif">English voice</div>
+    </div>
+  </div>
+  <div style="width:410px;display:flex;flex-direction:column;justify-content:center;gap:12px">
+    <div style="border-radius:28px;padding:22px 24px;background:#7A1533;color:#FDF2E2;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 12px 26px rgba(122,21,51,.28)" style-hover="transform:translateY(-2px)">
+      <div>
+        <div style="font:400 30px/1 'Instrument Serif',serif">Start new game</div>
+        <div style="font:400 12px/1 'DM Sans',sans-serif;opacity:.7;margin-top:6px">Fresh board, 90 numbers</div>
+      </div>
+      <div style="width:48px;height:48px;border-radius:999px;background:#E9A227;color:#3A1206;display:flex;align-items:center;justify-content:center;font:700 18px 'DM Sans',sans-serif">▶</div>
+    </div>
+    <div style="display:flex;gap:12px">
+      <div style="flex:1;border-radius:22px;padding:16px 18px;background:#fff;border:1px solid rgba(42,18,24,.1);cursor:pointer" style-hover="border-color:#E9A227">
+        <div style="font:400 20px/1 'Instrument Serif',serif">Continue</div>
+        <div style="font:400 11.5px/1.3 'DM Sans',sans-serif;color:rgba(42,18,24,.5);margin-top:5px">{{ calledCount }} of 90 called</div>
+      </div>
+      <div style="flex:1;border-radius:22px;padding:16px 18px;background:#fff;border:1px solid rgba(42,18,24,.1);cursor:pointer" style-hover="border-color:#E9A227">
+        <div style="font:400 20px/1 'Instrument Serif',serif">Settings</div>
+        <div style="font:400 11.5px/1.3 'DM Sans',sans-serif;color:rgba(42,18,24,.5);margin-top:5px">Speed, voice, patterns</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 6px">
+      <div style="font:500 12px 'DM Sans',sans-serif;color:#7A1533;text-decoration:underline;cursor:pointer">How to play</div>
+      <div style="font:400 11px 'DM Sans',sans-serif;color:rgba(42,18,24,.35)">v1.0</div>
+    </div>
+    <div style="height:32px;border-radius:12px;border:1px dashed rgba(42,18,24,.2);display:flex;align-items:center;justify-content:center;font:500 10px 'DM Sans',sans-serif;letter-spacing:.1em;color:rgba(42,18,24,.35)">BANNER AD SLOT</div>
+  </div>
+</div></div></div>
+
+<div><p class="dv-cap">Game</p>
+<div class="bez"><div class="scr" style="background:#FBF3E4;background-image:radial-gradient(circle at 8% 12%,rgba(233,162,39,.2) 0,transparent 34%);display:flex;padding:14px 16px;gap:16px;font-family:'DM Sans',sans-serif;color:#2A1218">
+  <div style="width:392px;display:flex;flex-direction:column;align-items:center;justify-content:space-between">
+    <div onClick="{{ toggle }}" style="position:relative;width:230px;height:230px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:6px">
+      <div style="position:absolute;inset:0;border-radius:999px;background:#fff;box-shadow:0 12px 30px rgba(122,21,51,.14)"></div>
+      <svg width="230" height="230" viewBox="0 0 230 230" style="position:absolute;inset:0;transform:rotate(-90deg)">
+        <circle cx="115" cy="115" r="104" fill="none" stroke="rgba(122,21,51,.1)" stroke-width="11"></circle>
+        <circle cx="115" cy="115" r="104" fill="none" stroke="#E9A227" stroke-width="11" stroke-linecap="round" stroke-dasharray="654" style="stroke-dashoffset:{{ ringOffsetB }}"></circle>
+      </svg>
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
+        <div style="font:400 100px/1 'Instrument Serif',serif;color:#7A1533;font-variant-numeric:tabular-nums">{{ currentLabel }}</div>
+        <div style="font:500 10.5px 'DM Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(42,18,24,.45)">{{ stateLabel }}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <sc-for list="{{ recentB }}" as="r" hint-placeholder-count="4">
+        <div style="width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font:400 20px 'Instrument Serif',serif;background:{{ r.bg }};color:{{ r.fg }};border:1px solid rgba(42,18,24,.08)">{{ r.n }}</div>
+      </sc-for>
+    </div>
+    <div style="width:100%;display:flex;gap:8px">
+      <div onClick="{{ toggle }}" style="flex:1;height:50px;border-radius:16px;background:#7A1533;color:#FDF2E2;display:flex;align-items:center;justify-content:center;font:600 14px 'DM Sans',sans-serif;cursor:pointer">{{ toggleLabel }}</div>
+      <div style="width:50px;height:50px;border-radius:16px;background:#fff;border:1px solid rgba(42,18,24,.12);display:flex;align-items:center;justify-content:center;font:600 13px 'DM Sans',sans-serif;cursor:pointer">↺</div>
+      <div style="width:50px;height:50px;border-radius:16px;background:#fff;border:1px solid rgba(42,18,24,.12);display:flex;align-items:center;justify-content:center;font:600 13px 'DM Sans',sans-serif;cursor:pointer">⚙</div>
+    </div>
+    <div style="width:100%;display:flex;gap:6px;flex-wrap:wrap">
+      <sc-for list="{{ patternsB }}" as="p" hint-placeholder-count="5">
+        <div onClick="{{ p.onClick }}" style="padding:6px 11px;border-radius:999px;font:600 11px 'DM Sans',sans-serif;cursor:pointer;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bc }}">{{ p.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="flex:1;border-radius:22px;background:#fff;border:1px solid rgba(42,18,24,.08);padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 22px rgba(122,21,51,.08)">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font:400 18px 'Instrument Serif',serif">The board</div>
+      <div style="font:500 12px 'DM Sans',sans-serif;color:rgba(42,18,24,.5);font-variant-numeric:tabular-nums">{{ calledCount }}/90 called</div>
+    </div>
+    <div style="display:grid;gap:4px;justify-content:center;grid-template-columns:{{ gridCols }}">
+      <sc-for list="{{ cellsB }}" as="c" hint-placeholder-count="90">
+        <div style="width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font:500 14.5px 'DM Sans',sans-serif;font-variant-numeric:tabular-nums;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bc }};transition:background .25s">{{ c.n }}</div>
+      </sc-for>
+    </div>
+  </div>
+</div></div></div>
+
+<div><p class="dv-cap">Settings</p>
+<div class="bez"><div class="scr" style="background:#FBF3E4;padding:18px 22px;font-family:'DM Sans',sans-serif;color:#2A1218;display:flex;flex-direction:column;gap:14px">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="width:34px;height:34px;border-radius:12px;background:#fff;border:1px solid rgba(42,18,24,.12);display:flex;align-items:center;justify-content:center;cursor:pointer">←</div>
+    <div style="font:400 28px/1 'Instrument Serif',serif">Settings</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1">
+    <div style="border-radius:22px;background:#fff;border:1px solid rgba(42,18,24,.08);padding:16px 18px;display:flex;flex-direction:column;gap:16px">
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+          <div style="font:400 19px 'Instrument Serif',serif">Call interval</div>
+          <div style="font:700 16px 'DM Sans',sans-serif;color:#7A1533">{{ intervalLabel }}</div>
+        </div>
+        <div style="height:6px;border-radius:999px;background:rgba(42,18,24,.1);position:relative">
+          <div style="position:absolute;inset:0 auto 0 0;width:{{ intervalPct }};border-radius:999px;background:#E9A227"></div>
+          <div style="position:absolute;top:-6px;left:{{ intervalPct }};width:18px;height:18px;margin-left:-9px;border-radius:999px;background:#7A1533"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+          <div style="font:400 19px 'Instrument Serif',serif">Voice speed</div>
+          <div style="font:700 16px 'DM Sans',sans-serif;color:#7A1533">Normal</div>
+        </div>
+        <div style="height:6px;border-radius:999px;background:rgba(42,18,24,.1);position:relative">
+          <div style="position:absolute;inset:0 auto 0 0;width:52%;border-radius:999px;background:#E9A227"></div>
+          <div style="position:absolute;top:-6px;left:52%;width:18px;height:18px;margin-left:-9px;border-radius:999px;background:#7A1533"></div>
+        </div>
+      </div>
+      <div>
+        <div style="font:400 19px 'Instrument Serif',serif;margin-bottom:9px">Announce in</div>
+        <div style="display:flex;gap:6px;padding:4px;border-radius:14px;background:#FBF3E4">
+          <div style="flex:1;padding:9px;border-radius:11px;text-align:center;font:600 13px 'DM Sans',sans-serif;background:#7A1533;color:#FDF2E2">English</div>
+          <div style="flex:1;padding:9px;border-radius:11px;text-align:center;font:500 13px 'DM Sans',sans-serif;color:rgba(42,18,24,.55)">हिंदी</div>
+        </div>
+      </div>
+    </div>
+    <div style="border-radius:22px;background:#fff;border:1px solid rgba(42,18,24,.08);padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font:400 19px 'Instrument Serif',serif">Patterns in play</div>
+        <div style="font:500 11.5px 'DM Sans',sans-serif;color:rgba(42,18,24,.45)">{{ patternCount }} selected</div>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <sc-for list="{{ allPatternsB }}" as="p" hint-placeholder-count="14">
+          <div onClick="{{ p.onClick }}" style="padding:7px 12px;border-radius:999px;font:600 12px 'DM Sans',sans-serif;cursor:pointer;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bc }}">{{ p.label }}</div>
+        </sc-for>
+      </div>
+      <div style="margin-top:auto;display:flex;gap:8px;align-items:center;border-radius:14px;background:#FBF3E4;padding:6px 6px 6px 14px">
+        <div style="flex:1;font:400 12.5px 'DM Sans',sans-serif;color:rgba(42,18,24,.4)">Add your own pattern…</div>
+        <div style="padding:9px 16px;border-radius:10px;background:#7A1533;color:#FDF2E2;font:600 12px 'DM Sans',sans-serif;cursor:pointer">Add</div>
+      </div>
+    </div>
+  </div>
+</div></div></div>
+
+</div>
+</div>
+
+<!-- ============ 1c CALLER STAGE ============ -->
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Caller Stage — bold, near-black, giant type. Built to be seen from across the room.</div>
+<div class="dv-row">
+
+<div><p class="dv-cap">Home</p>
+<div class="bez"><div class="scr" style="background:#0A0A0B;display:flex;flex-direction:column;padding:26px 30px;font-family:'Space Grotesk',sans-serif;color:#F4F4F0">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <div style="font:500 11px 'Space Grotesk',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#C6FF4F">Tambola Timer</div>
+    <div style="display:flex;gap:8px">
+      <div style="padding:7px 12px;border:1px solid rgba(244,244,240,.18);border-radius:8px;font:500 11px 'Space Grotesk',sans-serif;color:rgba(244,244,240,.65);cursor:pointer">How to play</div>
+      <div style="padding:7px 12px;border:1px solid rgba(244,244,240,.18);border-radius:8px;font:500 11px 'Space Grotesk',sans-serif;color:rgba(244,244,240,.65);cursor:pointer">Settings</div>
+    </div>
+  </div>
+  <div style="flex:1;display:flex;align-items:center;gap:30px">
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px">
+      <div style="font:400 104px/.84 Anton,sans-serif;letter-spacing:-.03em;text-transform:uppercase">Call the<br><span style="color:#C6FF4F">house</span></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <div style="width:52px;height:52px;background:#C6FF4F;color:#0A0A0B;display:flex;align-items:center;justify-content:center;font:400 30px Anton,sans-serif;font-variant-numeric:tabular-nums">7</div>
+        <div style="width:52px;height:52px;border:1px solid rgba(244,244,240,.22);display:flex;align-items:center;justify-content:center;font:400 30px Anton,sans-serif;color:rgba(244,244,240,.5)">24</div>
+        <div style="width:52px;height:52px;background:#FF6B4F;color:#0A0A0B;display:flex;align-items:center;justify-content:center;font:400 30px Anton,sans-serif">61</div>
+        <div style="width:52px;height:52px;border:1px solid rgba(244,244,240,.22);display:flex;align-items:center;justify-content:center;font:400 30px Anton,sans-serif;color:rgba(244,244,240,.5)">88</div>
+        <div style="margin-left:8px;font:500 10.5px 'Space Grotesk',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,244,240,.4)">90 numbers<br>one voice</div>
+      </div>
+    </div>
+    <div style="width:330px;display:flex;flex-direction:column;gap:10px">
+      <div style="border-radius:4px;padding:22px 24px;background:#C6FF4F;color:#0A0A0B;cursor:pointer;display:flex;flex-direction:column;gap:6px" style-hover="background:#DBFF86">
+        <div style="font:400 34px/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:-.01em">Start game</div>
+        <div style="font:500 11.5px 'Space Grotesk',sans-serif;opacity:.65">90 numbers · every {{ intervalLabel }} · English</div>
+      </div>
+      <div style="border-radius:4px;padding:16px 20px;border:1px solid rgba(244,244,240,.2);cursor:pointer;display:flex;align-items:center;justify-content:space-between" style-hover="border-color:#C6FF4F">
+        <div style="font:400 20px Anton,sans-serif;text-transform:uppercase">Continue</div>
+        <div style="font:500 11.5px 'Space Grotesk',sans-serif;color:rgba(244,244,240,.5)">{{ calledCount }}/90</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;border-radius:4px;padding:14px 16px;border:1px solid rgba(244,244,240,.2);font:400 16px Anton,sans-serif;text-transform:uppercase;cursor:pointer">Patterns</div>
+        <div style="flex:1;border-radius:4px;padding:14px 16px;border:1px solid rgba(244,244,240,.2);font:400 16px Anton,sans-serif;text-transform:uppercase;cursor:pointer">Voice</div>
+      </div>
+      <div style="height:32px;border:1px dashed rgba(244,244,240,.16);display:flex;align-items:center;justify-content:center;font:500 10px 'Space Grotesk',sans-serif;letter-spacing:.1em;color:rgba(244,244,240,.3)">BANNER AD SLOT</div>
+    </div>
+  </div>
+</div></div></div>
+
+<div><p class="dv-cap">Game</p>
+<div class="bez"><div class="scr" style="background:#0A0A0B;display:flex;padding:14px 16px;gap:14px;font-family:'Space Grotesk',sans-serif;color:#F4F4F0">
+  <div style="width:392px;display:flex;flex-direction:column;justify-content:space-between">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font:500 10.5px 'Space Grotesk',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(244,244,240,.45)">Now calling</div>
+      <div style="font:500 11px 'Space Grotesk',sans-serif;color:#C6FF4F;font-variant-numeric:tabular-nums">{{ calledCount }}/90</div>
+    </div>
+    <div onClick="{{ toggle }}" style="cursor:pointer;display:flex;flex-direction:column;gap:6px">
+      <div style="font:400 176px/.8 Anton,sans-serif;letter-spacing:-.04em;color:#C6FF4F;font-variant-numeric:tabular-nums">{{ currentLabel }}</div>
+      <div style="height:8px;background:rgba(244,244,240,.12);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0 auto 0 0;width:{{ progressPct }};background:#C6FF4F;transition:width .1s linear"></div>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font:500 11px 'Space Grotesk',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,244,240,.5)">{{ stateLabel }}</div>
+        <div style="font:500 11px 'Space Grotesk',sans-serif;color:rgba(244,244,240,.5)">prev {{ prevLabel }}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <div onClick="{{ toggle }}" style="flex:1;height:50px;background:#C6FF4F;color:#0A0A0B;display:flex;align-items:center;justify-content:center;font:400 20px Anton,sans-serif;text-transform:uppercase;cursor:pointer">{{ toggleLabel }}</div>
+      <div style="width:50px;height:50px;border:1px solid rgba(244,244,240,.2);display:flex;align-items:center;justify-content:center;cursor:pointer">↺</div>
+      <div style="width:50px;height:50px;border:1px solid rgba(244,244,240,.2);display:flex;align-items:center;justify-content:center;cursor:pointer">⚙</div>
+    </div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <sc-for list="{{ patternsC }}" as="p" hint-placeholder-count="5">
+        <div onClick="{{ p.onClick }}" style="padding:6px 10px;font:600 10.5px 'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.bc }}">{{ p.label }}</div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;gap:8px;border-left:1px solid rgba(244,244,240,.12);padding-left:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font:500 10.5px 'Space Grotesk',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(244,244,240,.45)">Board</div>
+      <div style="display:flex;gap:10px;font:500 10px 'Space Grotesk',sans-serif;color:rgba(244,244,240,.4)"><span>■ called</span><span style="color:#FF6B4F">■ previous</span></div>
+    </div>
+    <div style="display:grid;gap:3px;justify-content:center;grid-template-columns:{{ gridCols }}">
+      <sc-for list="{{ cellsC }}" as="c" hint-placeholder-count="90">
+        <div style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:600 14px 'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bc }};transition:background .2s">{{ c.n }}</div>
+      </sc-for>
+    </div>
+  </div>
+</div></div></div>
+
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "take <a class="dv-oid" href="#1a">1a</a> and make the ring bigger" · "settings screen for <a class="dv-oid" href="#1c">1c</a>" · "mix <a class="dv-oid" href="#1b">1b</a>'s palette into <a class="dv-oid" href="#1a">1a</a>" · "add a winner-claim flow"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;callInterval&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:3,&quot;max&quot;:15,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Game&quot;},&quot;gridColumns&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:10,&quot;options&quot;:[9,10,11],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Game&quot;},&quot;highlightPrevious&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Game&quot;}}">
+class Component extends DCLogic {
+  state = { called: [], current: null, prev: null, progress: 0, playing: true, picked: ["Early 5", "Top Line", "Full House"] };
+
+  componentDidMount() {
+    this.pool = Array.from({ length: 90 }, (_, i) => i + 1);
+    for (let i = this.pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [this.pool[i], this.pool[j]] = [this.pool[j], this.pool[i]]; }
+    for (let k = 0; k < 11; k++) this.draw();
+    this.timer = setInterval(() => {
+      if (!this.state.playing) return;
+      const step = 0.1 / (this.props.callInterval ?? 6);
+      const p = this.state.progress + step;
+      if (p >= 1) { this.draw(); this.setState({ progress: 0 }); } else this.setState({ progress: p });
+    }, 100);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  draw() {
+    if (!this.pool.length) { this.setState({ playing: false }); return; }
+    const n = this.pool.pop();
+    this.setState(s => ({ current: n, prev: s.current, called: [...s.called, n] }));
+  }
+
+  cells(pal) {
+    const { called, current, prev } = this.state;
+    const highlightPrev = this.props.highlightPrevious ?? true;
+    return Array.from({ length: 90 }, (_, i) => {
+      const n = i + 1;
+      let o = { n, ...pal.idle };
+      if (called.includes(n)) o = { n, ...pal.called };
+      if (highlightPrev && n === prev) o = { n, ...pal.prev };
+      if (n === current) o = { n, ...pal.cur };
+      return o;
+    });
+  }
+
+  chips(list, pal) {
+    return list.map(label => {
+      const on = this.state.picked.includes(label);
+      return {
+        label, ...(on ? pal.on : pal.off),
+        onClick: () => this.setState(s => ({ picked: on ? s.picked.filter(x => x !== label) : [...s.picked, label] }))
+      };
+    });
+  }
+
+  renderVals() {
+    const { current, prev, called, progress, playing } = this.state;
+    const interval = this.props.callInterval ?? 6;
+    const cols = this.props.gridColumns ?? 10;
+    const pad = n => (n == null ? "--" : n < 10 ? "0" + n : String(n));
+    const recentList = [...called].reverse().slice(1, 5);
+
+    const palA = {
+      idle: { bg: "rgba(255,255,255,.07)", fg: "rgba(255,255,255,.42)", ring: "none" },
+      called: { bg: "rgba(43,224,122,.18)", fg: "#5DF0A0", ring: "inset 0 0 0 1px rgba(43,224,122,.35)" },
+      prev: { bg: "rgba(255,90,95,.9)", fg: "#fff", ring: "none" },
+      cur: { bg: "#2BE07A", fg: "#04140C", ring: "0 0 0 3px rgba(43,224,122,.28)" }
+    };
+    const palB = {
+      idle: { bg: "#FBF3E4", fg: "rgba(42,18,24,.45)", bc: "rgba(42,18,24,.07)" },
+      called: { bg: "#1F7A5C", fg: "#F3FFF9", bc: "transparent" },
+      prev: { bg: "#7A1533", fg: "#FDF2E2", bc: "transparent" },
+      cur: { bg: "#E9A227", fg: "#3A1206", bc: "#B87A11" }
+    };
+    const palC = {
+      idle: { bg: "transparent", fg: "rgba(244,244,240,.35)", bc: "rgba(244,244,240,.12)" },
+      called: { bg: "rgba(198,255,79,.12)", fg: "#C6FF4F", bc: "rgba(198,255,79,.3)" },
+      prev: { bg: "#FF6B4F", fg: "#0A0A0B", bc: "#FF6B4F" },
+      cur: { bg: "#C6FF4F", fg: "#0A0A0B", bc: "#C6FF4F" }
+    };
+    const chipA = { on: { bg: "rgba(43,224,122,.16)", fg: "#5DF0A0", bc: "rgba(43,224,122,.4)" }, off: { bg: "rgba(255,255,255,.05)", fg: "rgba(255,255,255,.45)", bc: "rgba(255,255,255,.12)" } };
+    const chipB = { on: { bg: "#7A1533", fg: "#FDF2E2", bc: "#7A1533" }, off: { bg: "#FBF3E4", fg: "rgba(42,18,24,.55)", bc: "rgba(42,18,24,.12)" } };
+    const chipC = { on: { bg: "#C6FF4F", fg: "#0A0A0B", bc: "#C6FF4F" }, off: { bg: "transparent", fg: "rgba(244,244,240,.5)", bc: "rgba(244,244,240,.2)" } };
+    const short = ["Early 5", "Top Line", "Middle Line", "Bottom Line", "Corners", "Full House"];
+    const all = ["Early 5", "Early 7", "Corners", "Top Line", "Middle Line", "Bottom Line", "Full House", "Second House", "Breakfast", "Lunch", "Dinner", "Day", "Night", "BP High", "BP Low"];
+
+    return {
+      currentLabel: pad(current), prevLabel: pad(prev),
+      stateLabel: playing ? "calling" : "paused",
+      stateColorA: playing ? "rgba(43,224,122,.8)" : "rgba(255,255,255,.4)",
+      toggleLabel: playing ? "Pause" : "Resume",
+      toggle: () => this.setState(s => ({ playing: !s.playing })),
+      noop: () => {},
+      calledCount: called.length,
+      progressPct: Math.round(progress * 100) + "%",
+      ringOffset: (1 - progress) * 666,
+      ringOffsetB: (1 - progress) * 654,
+      intervalLabel: interval + "s",
+      intervalPct: Math.round(((interval - 3) / 12) * 100) + "%",
+      gridCols: "repeat(" + cols + ", 34px)",
+      cellsA: this.cells(palA), cellsB: this.cells(palB), cellsC: this.cells(palC),
+      recent: recentList.map(n => ({ n: pad(n), bg: "rgba(255,255,255,.07)", fg: "rgba(255,255,255,.75)" })),
+      recentB: recentList.map(n => ({ n: pad(n), bg: "#fff", fg: "#2A1218" })),
+      historyRow: [...called].reverse().slice(0, 12).map((n, i) => ({ n: pad(n), bg: i === 0 ? "#2BE07A" : "rgba(255,255,255,.07)", fg: i === 0 ? "#04140C" : "rgba(255,255,255,.8)" })),
+      patterns: this.chips(short, chipA), patternsB: this.chips(short, chipB), patternsC: this.chips(short, chipC),
+      allPatterns: this.chips(all, chipA), allPatternsB: this.chips(all, chipB),
+      patternCount: this.state.picked.length
+    };
+  }
+}
+</script>
+</body>
+</html>

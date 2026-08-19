@@ -1,8 +1,11 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import type { ThemeId } from "./theme";
 
 /**
  * TimerState Interface
- * 
+ *
  * Defines the structure of the global state for the Tambola Timer application.
  * Contains all the state variables and functions needed for the timer functionality.
  */
@@ -29,9 +32,13 @@ interface TimerState {
     numColumns: number;
     cellSize: number;
     cellMargin: number;
-  
+
   }
-  
+
+  themeId: ThemeId;               // Currently selected UI theme (persisted)
+  setTheme: (id: ThemeId) => void; // Function to change the UI theme
+  seenHowTo: boolean;              // Whether the How-to-play modal has been shown once (persisted)
+  setSeenHowTo: () => void;        // Marks the How-to-play modal as seen
 }
 
 /**
@@ -40,7 +47,9 @@ interface TimerState {
  * Global state management for the Tambola Timer app using Zustand.
  * Manages timer state, number generation, history, and settings.
  */
-export const useTimerStore = create<TimerState>((set) => ({
+export const useTimerStore = create<TimerState>()(
+  persist(
+    (set) => ({
   // Initial state values
   progress: 0,
   play_pause: true,
@@ -87,7 +96,23 @@ export const useTimerStore = create<TimerState>((set) => ({
       numColumns: 10,
       cellSize: 0,
       cellMargin: 3,
-    
+
     },
-  
-}));
+
+  // UI theme
+  themeId: "midnight",
+  setTheme: (id) => set({ themeId: id }),
+  seenHowTo: false,
+  setSeenHowTo: () => set({ seenHowTo: true }),
+    }),
+    {
+      name: "tambola-settings",
+      storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => ({
+        themeId: state.themeId,
+        seenHowTo: state.seenHowTo,
+        games: state.games,
+      }),
+    },
+  ),
+);

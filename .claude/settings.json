@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" -s emulator-5554 exec-out screencap *)",
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" -s emulator-5554 logcat -d*)",
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" -s emulator-5554 logcat -c*)",
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" -s emulator-5554 shell pidof*)",
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" -s emulator-5554 pull *)",
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" devices*)",
+      "Bash(\"/e/Android/Sdk/platform-tools/adb.exe\" -s emulator-5554 shell pm list packages*)",
+      "Bash(curl -s *localhost*)"
+    ]
+  }
+}
