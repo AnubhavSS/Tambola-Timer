@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Dimensions,
+  LayoutChangeEvent,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  useWindowDimensions
 } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -20,10 +21,9 @@ import CircularProgress from "./CircularProgress";
  *
  * Displays the caller number and lets the player tap it to pause/resume.
  * midnight/festive show a circular progress ring; stage shows a large
- * numeral over a linear progress bar (no ring). Sized to leave comfortable
- * room for the recent strip, control bar and pattern chips below it — the
- * parent column centers the whole cluster, so this only needs to size
- * itself, not position itself.
+ * numeral over a linear progress bar (no ring). The ring fills the left
+ * column slot from gamescreen — wide on tablets, smaller on phones — and
+ * never wider/taller than that slot so it stays aligned with the controls.
  */
 const Timer = ({ theme }: { theme: Theme }) => {
   const progress = useTimerStore((state) => state.progress);
@@ -31,8 +31,20 @@ const Timer = ({ theme }: { theme: Theme }) => {
   const previousNumber = useTimerStore((state) => state.previousNumber);
   const { play_pause, togglePlayPause } = useTimerStore();
   const insets = useSafeAreaInsets();
-  const { height } = Dimensions.get("window");
-  const availableHeight = height - insets.top - insets.bottom;
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const availableHeight = windowHeight - insets.top - insets.bottom;
+  const columnWidth = windowWidth * 0.29;
+
+  // First-paint estimate: fill the left column, but leave room for the control bar.
+  const estimatedSize = Math.min(columnWidth, availableHeight * 0.52);
+  const [circleSize, setCircleSize] = useState(estimatedSize);
+
+  const handleSlotLayout = (event: LayoutChangeEvent) => {
+    const { width, height } = event.nativeEvent.layout;
+    if (width <= 0 || height <= 0) return;
+    const next = Math.floor(Math.min(width, height));
+    if (next !== circleSize) setCircleSize(next);
+  };
 
   const handlePause = () => {
     togglePlayPause();
@@ -40,36 +52,54 @@ const Timer = ({ theme }: { theme: Theme }) => {
 
   const label = currentNumber < 10 ? `0${currentNumber}` : `${currentNumber}`;
   const microLabel = play_pause ? "calling" : "paused";
+  const numberSize = circleSize * 0.48;
+  const microSize = Math.max(10, circleSize * 0.07);
 
   if (theme.id === "stage") {
+    const stageNumeral = Math.min(circleSize * 0.72, hp(14));
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={handleSlotLayout}>
         <TouchableOpacity onPress={handlePause} activeOpacity={0.8}>
           <Text
             style={{
               fontFamily: theme.font.display,
-              fontSize: hp(11),
-              lineHeight: hp(11),
+              fontSize: stageNumeral,
+              lineHeight: stageNumeral,
               color: theme.accent,
             }}
           >
             {label}
           </Text>
         </TouchableOpacity>
-        <View style={[styles.stageTrack, { backgroundColor: theme.surfaceBorder }]}>
+        <View
+          style={[styles.stageTrack, { backgroundColor: theme.surfaceBorder }]}
+        >
           <View
             style={[
               styles.stageFill,
-              { backgroundColor: theme.accent, width: `${Math.min(progress, 1) * 100}%` },
+              {
+                backgroundColor: theme.accent,
+                width: `${Math.min(progress, 1) * 100}%`,
+              },
             ]}
           />
         </View>
         <View style={styles.stageMetaRow}>
-          <Text style={[styles.stageMeta, { color: theme.textDim, fontFamily: theme.font.body }]}>
+          <Text
+            style={[
+              styles.stageMeta,
+              { color: theme.textDim, fontFamily: theme.font.body },
+            ]}
+          >
             {microLabel.toUpperCase()}
           </Text>
           {previousNumber !== null && (
-            <Text style={[styles.stageMeta, { color: theme.textDim, fontFamily: theme.font.body }]}>
+            <Text
+              style={[
+                styles.stageMeta,
+                { color: theme.textDim, fontFamily: theme.font.body },
+              ]}
+            >
               PREV {previousNumber}
             </Text>
           )}
@@ -78,12 +108,8 @@ const Timer = ({ theme }: { theme: Theme }) => {
     );
   }
 
-  // Cap the ring by both available height and the column's width so it never
-  // crowds the recent strip / controls / chips beneath it or overflows sideways.
-  const circleSize = Math.min(availableHeight * 0.46, wp(23));
-
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={handleSlotLayout}>
       <View
         style={[styles.timerWrapper, { width: circleSize, height: circleSize }]}
       >
@@ -93,7 +119,7 @@ const Timer = ({ theme }: { theme: Theme }) => {
           outerCircleColor={theme.surfaceBorder}
           progressCircleColor={theme.accent}
           size={circleSize}
-          strokeWidth={circleSize * 0.03}
+          strokeWidth={Math.max(3, circleSize * 0.045)}
         />
 
         <TouchableOpacity style={styles.playButton} onPress={handlePause}>
@@ -101,7 +127,8 @@ const Timer = ({ theme }: { theme: Theme }) => {
             style={{
               fontFamily: theme.font.display,
               fontWeight: theme.font.displayWeight as any,
-              fontSize: circleSize * 0.4,
+              fontSize: numberSize,
+              lineHeight: numberSize * 1.05,
               color: theme.text,
             }}
           >
@@ -110,11 +137,11 @@ const Timer = ({ theme }: { theme: Theme }) => {
           <Text
             style={{
               fontFamily: theme.font.body,
-              fontSize: circleSize * 0.065,
-              letterSpacing: 2,
+              fontSize: microSize,
+              letterSpacing: circleSize * 0.012,
               color: theme.textDim,
               textTransform: "uppercase",
-              marginTop: circleSize * 0.02,
+              marginTop: -circleSize * 0.02,
             }}
           >
             {microLabel}
@@ -132,7 +159,10 @@ export default Timer;
  */
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
+    height: "100%",
     alignItems: "center",
+    justifyContent: "center",
   },
   timerWrapper: {
     justifyContent: "center",

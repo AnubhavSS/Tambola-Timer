@@ -1,6 +1,6 @@
+import { showInterstitialAd } from "@/helper";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
-import { showInterstitialAd } from "@/helper";
 import React from "react";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import {
@@ -22,7 +22,9 @@ export default function ControlBar({ theme }: { theme: Theme }) {
   const play_pause = useTimerStore((state) => state.play_pause);
   const togglePlayPause = useTimerStore((state) => state.togglePlayPause);
   const resetStore = useTimerStore((state) => state.resetStore);
-  const setShowPreviousModal = useTimerStore((state) => state.setShowPreviousModal);
+  const setShowPreviousModal = useTimerStore(
+    (state) => state.setShowPreviousModal,
+  );
 
   const handleReset = () => {
     Alert.alert(
@@ -41,7 +43,7 @@ export default function ControlBar({ theme }: { theme: Theme }) {
   };
 
   return (
-    <View style={styles.row}>
+    <View style={styles.col}>
       <Pressable
         onPress={togglePlayPause}
         style={({ pressed }) => [
@@ -53,52 +55,104 @@ export default function ControlBar({ theme }: { theme: Theme }) {
           pressed && { opacity: 0.9 },
         ]}
       >
-        <Ionicons name={play_pause ? "pause" : "play"} size={hp(3.2)} color={theme.accentOn} />
-        <Text style={[styles.primaryText, { color: theme.accentOn, fontFamily: theme.font.body }]}>
+        <Ionicons
+          name={play_pause ? "pause" : "play"}
+          size={hp(3.2)}
+          color={theme.accentOn}
+        />
+        <Text
+          style={[
+            styles.primaryText,
+            { color: theme.accentOn, fontFamily: theme.font.body },
+          ]}
+        >
           {play_pause ? "Pause" : "Resume"}
         </Text>
       </Pressable>
 
-      <Pressable
-        onPress={handleReset}
-        style={({ pressed }) => [
-          styles.square,
-          { backgroundColor: theme.surface, borderColor: theme.surfaceBorder, borderRadius: theme.radius.button },
-          pressed && { opacity: 0.85 },
-        ]}
-      >
-        <Ionicons name="refresh" size={hp(3)} color={theme.text} />
-      </Pressable>
+      <View style={styles.row}>
+        <Pressable
+          onPress={handleReset}
+          style={({ pressed }) => [
+            styles.square,
+            {
+              backgroundColor: theme.surface,
+              borderColor: theme.surfaceBorder,
+              borderRadius: theme.radius.button,
+            },
+            pressed && { opacity: 0.85 },
+          ]}
+        >
+          <Ionicons name="refresh" size={hp(4.5)} color={theme.text} />
+        </Pressable>
 
-      <Pressable
-        onPress={() => router.push("/settingscreen")}
-        style={({ pressed }) => [
-          styles.square,
-          { backgroundColor: theme.surface, borderColor: theme.surfaceBorder, borderRadius: theme.radius.button },
-          pressed && { opacity: 0.85 },
-        ]}
-      >
-        <Ionicons name="settings" size={hp(3)} color={theme.text} />
-      </Pressable>
+        <Pressable
+          onPress={() => router.push("/settingscreen")}
+          style={({ pressed }) => [
+            styles.square,
+            {
+              backgroundColor: theme.surface,
+              borderColor: theme.surfaceBorder,
+              borderRadius: theme.radius.button,
+            },
+            pressed && { opacity: 0.85 },
+          ]}
+        >
+          <Ionicons name="settings" size={hp(4.5)} color={theme.text} />
+        </Pressable>
 
-      <Pressable
-        onPress={handleHistory}
-        style={({ pressed }) => [
-          styles.square,
-          { backgroundColor: theme.surface, borderColor: theme.surfaceBorder, borderRadius: theme.radius.button },
-          pressed && { opacity: 0.85 },
-        ]}
-      >
-        <Ionicons name="time" size={hp(3)} color={theme.text} />
-      </Pressable>
+        <Pressable
+          onPress={handleHistory}
+          style={({ pressed }) => [
+            styles.square,
+            {
+              backgroundColor: theme.surface,
+              borderColor: theme.surfaceBorder,
+              borderRadius: theme.radius.button,
+            },
+            pressed && { opacity: 0.85 },
+          ]}
+        >
+          <Ionicons name="time" size={hp(4.5)} color={theme.text} />
+        </Pressable>
+      </View>
+
+      <View style={styles.header}>
+        <View style={styles.legendRow}>
+          <View style={styles.legendItem}>
+            <View
+              style={[
+                styles.legendDot,
+                { backgroundColor: theme.cell.calledBg },
+              ]}
+            />
+            <Text style={[styles.legendText, { color: theme.textDim }]}>
+              Called
+            </Text>
+          </View>
+          <View style={styles.legendItem}>
+            <View
+              style={[styles.legendDot, { backgroundColor: theme.cell.prevBg }]}
+            />
+            <Text style={[styles.legendText, { color: theme.textDim }]}>
+              Previous
+            </Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  col: {
+    flexDirection: "column",
+    gap: wp(1.8),
+    width: "100%",
+  },
   row: {
     flexDirection: "row",
-    gap: wp(1.8),
+    justifyContent: "space-around",
     width: "100%",
   },
   primary: {
@@ -108,17 +162,47 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: wp(1.5),
+    marginTop: hp(2),
   },
   primaryText: {
-    fontSize: hp(2),
+    fontSize: hp(3),
     fontWeight: "700",
     textTransform: "uppercase",
   },
   square: {
-    width: hp(6.5),
-    height: hp(6.5),
-    borderWidth: 1.5,
+    width: hp(8),
+    height: hp(8),
+    borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
+  },
+  header: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: wp(1),
+    paddingBottom: hp(1),
+    marginHorizontal: wp(3),
+  },
+  headerTitle: {
+    fontSize: hp(2.2),
+  },
+  legendRow: {
+    flexDirection: "row",
+    gap: wp(2),
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: wp(0.6),
+  },
+  legendDot: {
+    width: hp(5.2),
+    height: hp(5.2),
+    borderRadius: hp(2.6),
+  },
+  legendText: {
+    fontSize: hp(3.4),
   },
 });

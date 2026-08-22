@@ -28,7 +28,7 @@ import ThemedBackground from "../components/radial";
 import { How_To_Play } from "../data";
 import { calculateGridLayout } from "../helper";
 import { useTimerStore } from "../store";
-import { ThemeId, THEMES, useTheme } from "../theme";
+import { THEMES, ThemeId, useTheme } from "../theme";
 
 /**
  * Index Component
@@ -38,8 +38,7 @@ import { ThemeId, THEMES, useTheme } from "../theme";
  */
 const adUnitId = __DEV__
   ? TestIds.ADAPTIVE_BANNER
-  :
-   "ca-app-pub-2097672905689831/3538055833";
+  : "ca-app-pub-2097672905689831/3538055833";
 
 const LANGUAGE_LABEL: Record<string, string> = {
   "en-US": "English",
@@ -73,7 +72,7 @@ const Index = () => {
   const language = useTimerStore((state) => state.language);
   const games = useTimerStore((state) => state.games);
   const resetStore = useTimerStore.getState().resetStore;
-    const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
   const closeHowTo = () => {
     setModalVisible(false);
@@ -82,24 +81,35 @@ const Index = () => {
 
   // Calculate grid layout based on safe area insets
   useEffect(() => {
-  calculateGridLayout({top:insets.top,bottom:insets.bottom});
+    calculateGridLayout({ top: insets.top, bottom: insets.bottom });
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
       <ThemedBackground />
       <View style={styles.container}>
-
         {/* Info Icon (top left corner) */}
-      <TouchableOpacity
-        style={[styles.infoIcon, { top: insets.top + hp(2), left: insets.left + wp(3) }]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Ionicons name="information-circle-outline" size={hp(3.6)} color={theme.textDim} />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.infoIcon,
+            { top: insets.top + hp(2), left: insets.left + wp(3) },
+          ]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Ionicons
+            name="information-circle-outline"
+            size={hp(5.6)}
+            color={theme.textDim}
+          />
+        </TouchableOpacity>
 
         {/* Theme swatches (top right corner) */}
-        <View style={[styles.themeSwitcher, { top: insets.top + hp(2), right: insets.right + wp(3) }]}>
+        <View
+          style={[
+            styles.themeSwitcher,
+            { top: insets.top + hp(2), right: insets.right + wp(3) },
+          ]}
+        >
           {(Object.keys(THEMES) as ThemeId[]).map((id) => {
             const t = THEMES[id];
             const active = themeId === id;
@@ -128,16 +138,44 @@ const Index = () => {
 
           {theme.id !== "stage" && (
             <View style={styles.chipRow}>
-              <View style={[styles.chip, { backgroundColor: theme.surface, borderColor: theme.surfaceBorder }]}>
+              <View
+                style={[
+                  styles.chip,
+                  {
+                    backgroundColor: theme.surface,
+                    borderColor: theme.surfaceBorder,
+                  },
+                ]}
+              >
                 <Text style={[styles.chipText, { color: theme.textDim }]}>
                   Voice: {LANGUAGE_LABEL[language] ?? language}
                 </Text>
               </View>
-              <View style={[styles.chip, { backgroundColor: theme.surface, borderColor: theme.surfaceBorder }]}>
-                <Text style={[styles.chipText, { color: theme.textDim }]}>Every {timerInterval}s</Text>
+              <View
+                style={[
+                  styles.chip,
+                  {
+                    backgroundColor: theme.surface,
+                    borderColor: theme.surfaceBorder,
+                  },
+                ]}
+              >
+                <Text style={[styles.chipText, { color: theme.textDim }]}>
+                  Every {timerInterval}s
+                </Text>
               </View>
-              <View style={[styles.chip, { backgroundColor: theme.surface, borderColor: theme.surfaceBorder }]}>
-                <Text style={[styles.chipText, { color: theme.textDim }]}>{games.length} patterns</Text>
+              <View
+                style={[
+                  styles.chip,
+                  {
+                    backgroundColor: theme.surface,
+                    borderColor: theme.surfaceBorder,
+                  },
+                ]}
+              >
+                <Text style={[styles.chipText, { color: theme.textDim }]}>
+                  {games.length} patterns
+                </Text>
               </View>
             </View>
           )}
@@ -152,13 +190,17 @@ const Index = () => {
                 resetStore();
                 router.push("/gamescreen");
               }}
+              android_ripple={{
+                color: "#0000001A",
+                foreground: true,
+                borderless: false,
+              }}
               style={({ pressed }) => [
                 styles.startButton,
                 {
                   backgroundColor: theme.accent,
                   borderRadius: theme.radius.button * 1.6,
                 },
-                pressed && { transform: [{ translateY: -2 }] },
               ]}
             >
               <View>
@@ -170,7 +212,12 @@ const Index = () => {
                 >
                   Start New Game
                 </Text>
-                <Text style={[styles.subline, { color: theme.accentOn, opacity: 0.75 }]}>
+                <Text
+                  style={[
+                    styles.subline,
+                    { color: theme.accentOn, opacity: 0.75 },
+                  ]}
+                >
                   Board resets · 90 numbers shuffled
                 </Text>
               </View>
@@ -191,7 +238,12 @@ const Index = () => {
               ]}
               onPress={() => router.push("/gamescreen")}
             >
-              <Text style={[styles.text, { color: theme.text, fontFamily: theme.font.body }]}>
+              <Text
+                style={[
+                  styles.text,
+                  { color: theme.text, fontFamily: theme.font.body },
+                ]}
+              >
                 Continue
               </Text>
             </Pressable>
@@ -211,7 +263,12 @@ const Index = () => {
               ]}
               onPress={() => router.push("/settingscreen")}
             >
-              <Text style={[styles.text, { color: theme.text, fontFamily: theme.font.body }]}>
+              <Text
+                style={[
+                  styles.text,
+                  { color: theme.text, fontFamily: theme.font.body },
+                ]}
+              >
                 Settings
               </Text>
             </Pressable>
@@ -235,27 +292,45 @@ const Index = () => {
         onRequestClose={closeHowTo}
       >
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalContainer, { backgroundColor: theme.popupSurface, borderRadius: theme.radius.card }]}>
-            <Text style={[styles.modalTitle, { color: theme.accent, fontFamily: theme.font.display }]}>How to Play</Text>
-
-            <Text style={{flex:1}}>
-              <FlatList
-
-                data={How_To_Play}
-                renderItem={({ item,index }) => (
-                  <Text style={[styles.modalText, { color: theme.text }]}>{index+1}. {item}</Text>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-              />
+          <View
+            style={[
+              styles.modalContainer,
+              {
+                backgroundColor: theme.popupSurface,
+                borderRadius: theme.radius.card,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.modalTitle,
+                { color: theme.accent, fontFamily: theme.font.display },
+              ]}
+            >
+              How to Play
             </Text>
 
-            <Pressable style={[styles.closeButton, { backgroundColor: theme.accent }]} onPress={closeHowTo}>
-              <Text style={[styles.closeText, { color: theme.accentOn }]}>Got it</Text>
+            <FlatList
+              data={How_To_Play}
+              renderItem={({ item, index }) => (
+                <Text style={[styles.modalText, { color: theme.text }]}>
+                  {index + 1}. {item}
+                </Text>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+
+            <Pressable
+              style={[styles.closeButton, { backgroundColor: theme.accent }]}
+              onPress={closeHowTo}
+            >
+              <Text style={[styles.closeText, { color: theme.accentOn }]}>
+                Got it
+              </Text>
             </Pressable>
           </View>
         </View>
       </Modal>
-
     </View>
   );
 };
@@ -274,7 +349,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp("6%"),
     paddingBottom: hp("9%"),
   },
- infoIcon: {
+  infoIcon: {
     position: "absolute",
     zIndex: 10,
   },
@@ -350,7 +425,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(2.2),
   },
   chipText: {
-    fontSize: hp(1.6),
+    fontSize: hp(2),
     fontWeight: "500",
   },
   bannerStyle: {
@@ -360,7 +435,7 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: "center", // this centers the child horizontally
   },
-    modalOverlay: {
+  modalOverlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -368,7 +443,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "82%",
-    maxHeight: "78%",
+    height: "65%",
     padding: wp(2.5),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
@@ -382,8 +457,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalText: {
-    fontSize: hp(2),
-    lineHeight: hp(2.6),
+    fontSize: hp(3.5),
+    lineHeight: hp(5),
     marginBottom: hp(1.8),
   },
   closeButton: {

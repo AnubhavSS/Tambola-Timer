@@ -37,7 +37,13 @@ function MidnightMark() {
           { width: size * 0.67, height: size * 0.67, borderRadius: size },
         ]}
       >
-        <Text style={{ fontFamily: "Sora_800ExtraBold", fontSize: size * 0.27, color: "#EAFFF3" }}>
+        <Text
+          style={{
+            fontFamily: "Sora_800ExtraBold",
+            fontSize: size * 0.27,
+            color: "#EAFFF3",
+          }}
+        >
           90
         </Text>
       </View>
@@ -88,7 +94,11 @@ function StageTiles({ theme }: { theme: Theme }) {
     <View style={styles.stageTilesRow}>
       {tiles.map((t) => {
         const bg =
-          t.kind === "accent" ? theme.accent : t.kind === "danger" ? theme.danger : "transparent";
+          t.kind === "accent"
+            ? theme.accent
+            : t.kind === "danger"
+              ? theme.danger
+              : "transparent";
         const fg = t.kind === "outline" ? theme.text : theme.accentOn;
         return (
           <View
@@ -97,11 +107,18 @@ function StageTiles({ theme }: { theme: Theme }) {
               styles.stageTile,
               {
                 backgroundColor: bg,
-                borderColor: t.kind === "outline" ? theme.surfaceBorder : "transparent",
+                borderColor:
+                  t.kind === "outline" ? theme.surfaceBorder : "transparent",
               },
             ]}
           >
-            <Text style={{ fontFamily: theme.font.display, fontSize: hp(4), color: t.kind === "danger" ? "#0A0A0B" : fg }}>
+            <Text
+              style={{
+                fontFamily: theme.font.display,
+                fontSize: hp(4),
+                color: t.kind === "danger" ? "#0A0A0B" : fg,
+              }}
+            >
               {t.n}
             </Text>
           </View>
@@ -130,8 +147,8 @@ export default function HomeBrand({ theme }: { theme: Theme }) {
             textTransform: "uppercase",
           }}
         >
-          Call the{"\n"}
-          <Text style={{ color: theme.accent }}>House</Text>
+          Tambola{"\n"}
+          <Text style={{ color: theme.accent }}>Timer</Text>
         </Text>
         <StageTiles theme={theme} />
         <Text
@@ -158,13 +175,21 @@ export default function HomeBrand({ theme }: { theme: Theme }) {
           style={{
             fontFamily: theme.font.display,
             fontWeight: theme.font.displayWeight as any,
-            fontSize: hp(6),
+            fontSize: hp(12),
             color: theme.text,
           }}
         >
           Tambola{"\n"}
           {theme.id === "festive" ? (
-            <Text style={{ fontStyle: "italic", color: theme.danger }}>Timer</Text>
+            <Text
+              style={{
+                fontStyle: "italic",
+                color: theme.danger,
+                marginLeft: wp(2),
+              }}
+            >
+              Timer
+            </Text>
           ) : (
             "Timer"
           )}
@@ -173,7 +198,7 @@ export default function HomeBrand({ theme }: { theme: Theme }) {
           <Text
             style={{
               fontFamily: "Sora_600SemiBold",
-              fontSize: hp(1.6),
+              fontSize: hp(3),
               letterSpacing: 2,
               color: theme.accentTintText,
               marginTop: hp(0.5),

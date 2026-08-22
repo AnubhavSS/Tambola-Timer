@@ -1,10 +1,10 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTimerStore } from "../store";
 import { Theme } from "../theme";
 
@@ -24,23 +24,19 @@ const Grid = ({ theme }: { theme: Theme }) => {
   let gridData = Array.from({ length: 90 }, (_, i) => i + 1);
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View style={[styles.grid, { backgroundColor: theme.surface, borderColor: theme.surfaceBorder, borderRadius: theme.radius.card }]}>
-        <View style={styles.header}>
-          <Text style={[styles.headerTitle, { color: theme.text, fontFamily: theme.font.display }]}>Board</Text>
-          <View style={styles.legendRow}>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: theme.cell.calledBg }]} />
-              <Text style={[styles.legendText, { color: theme.textDim }]}>Called</Text>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: theme.cell.prevBg }]} />
-              <Text style={[styles.legendText, { color: theme.textDim }]}>Previous</Text>
-            </View>
-          </View>
-          <Text style={[styles.counter, { color: theme.textDim }]}>{history.length}/90</Text>
-        </View>
-
+    <SafeAreaView
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
+      <View
+        style={[
+          styles.grid,
+          {
+            backgroundColor: theme.surface,
+            borderColor: theme.surfaceBorder,
+            borderRadius: theme.radius.card,
+          },
+        ]}
+      >
         <FlatList
           data={gridData}
           keyExtractor={(item, index) => index.toString()}
@@ -79,14 +75,21 @@ const Grid = ({ theme }: { theme: Theme }) => {
                   },
                 ]}
               >
-                <Text style={[styles.cellText, { color: fg }, { fontSize: gridLayout.cellSize * 0.5 }]}>{item}</Text>
+                <Text
+                  style={[
+                    styles.cellText,
+                    { color: fg },
+                    { fontSize: gridLayout.cellSize * 0.5 },
+                  ]}
+                >
+                  {item}
+                </Text>
               </View>
             );
           }}
         />
       </View>
     </SafeAreaView>
-
   );
 };
 
@@ -97,51 +100,23 @@ export default Grid;
  */
 const styles = StyleSheet.create({
   grid: {
-  alignItems: "center",
-  justifyContent: "center",
-  borderWidth: 1,
-  padding: wp(1.2),
-  overflow: "hidden",
-},
-  header: {
-    width: "100%",
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: wp(1),
-    paddingBottom: hp(1),
+    justifyContent: "center",
+    borderWidth: 1,
+    padding: wp(1),
+    overflow: "hidden",
   },
-  headerTitle: {
-    fontSize: hp(2.2),
-  },
-  legendRow: {
-    flexDirection: "row",
-    gap: wp(2),
-  },
-  legendItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: wp(0.6),
-  },
-  legendDot: {
-    width: hp(1.2),
-    height: hp(1.2),
-    borderRadius: hp(0.6),
-  },
-  legendText: {
-    fontSize: hp(1.4),
-  },
+
   counter: {
     fontSize: hp(1.6),
     fontWeight: "600",
   },
-cell: {
-  margin: 3,
-  justifyContent: "center",
-  alignItems: "center",
-},
-cellText: {
-  fontWeight: "600",
-},
-
+  cell: {
+    margin: 3,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cellText: {
+    fontWeight: "600",
+  },
 });

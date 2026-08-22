@@ -1,5 +1,3 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
-import * as Speech from "expo-speech";
 import React from "react";
 import {
   FlatList,
@@ -29,15 +27,6 @@ const PreviousModal = ({ theme }: { theme: Theme }) => {
     (state) => state.setShowPreviousModal,
   );
   const previousArray = useTimerStore((state) => state.previousArray);
-  const currentNumber = useTimerStore((state) => state.currentNumber);
-  const language = useTimerStore((state) => state.language);
-  const rate = useTimerStore((state) => state.rate);
-  const soundVolume = useTimerStore((state) => state.soundVolume);
-
-  const repeatLastCall = () => {
-    if (!currentNumber) return;
-    Speech.speak(currentNumber.toString(), { language, rate, volume: soundVolume });
-  };
 
   return (
     <Modal
@@ -48,13 +37,36 @@ const PreviousModal = ({ theme }: { theme: Theme }) => {
     >
       <Pressable style={styles.scrim} onPress={() => setShowPreviousModal()}>
         <Pressable
-          style={[styles.sheet, { backgroundColor: theme.popupSurface, borderColor: theme.surfaceBorder }]}
+          style={[
+            styles.sheet,
+            {
+              backgroundColor: theme.popupSurface,
+              borderColor: theme.surfaceBorder,
+            },
+          ]}
           onPress={() => {}}
         >
-          <View style={[styles.grabHandle, { backgroundColor: theme.surfaceBorder }]} />
+          <View
+            style={[
+              styles.grabHandle,
+              { backgroundColor: theme.surfaceBorder },
+            ]}
+          />
 
-          <Text style={[styles.title, { color: theme.text, fontFamily: theme.font.display }]}>Called so far</Text>
-          <Text style={[styles.subtitle, { color: theme.textDim, fontFamily: theme.font.body }]}>
+          <Text
+            style={[
+              styles.title,
+              { color: theme.text, fontFamily: theme.font.display },
+            ]}
+          >
+            Called so far
+          </Text>
+          <Text
+            style={[
+              styles.subtitle,
+              { color: theme.textDim, fontFamily: theme.font.body },
+            ]}
+          >
             newest first · {previousArray.length} numbers
           </Text>
 
@@ -71,12 +83,21 @@ const PreviousModal = ({ theme }: { theme: Theme }) => {
                   style={[
                     styles.tile,
                     {
-                      backgroundColor: newest ? theme.accent : theme.cell.idleBg,
+                      backgroundColor: newest
+                        ? theme.accent
+                        : theme.cell.idleBg,
                       borderColor: theme.surfaceBorder,
                     },
                   ]}
                 >
-                  <Text style={[styles.tileText, { color: newest ? theme.accentOn : theme.text }]}>{item}</Text>
+                  <Text
+                    style={[
+                      styles.tileText,
+                      { color: newest ? theme.accentOn : theme.text },
+                    ]}
+                  >
+                    {item}
+                  </Text>
                 </View>
               );
             }}
@@ -84,19 +105,15 @@ const PreviousModal = ({ theme }: { theme: Theme }) => {
 
           <View style={styles.buttonRow}>
             <Pressable
-              style={[styles.secondaryButton, { backgroundColor: theme.surface, borderColor: theme.surfaceBorder }]}
-              onPress={repeatLastCall}
-            >
-              <AntDesign name="sound" size={hp(2.4)} color={theme.text} />
-              <Text style={[styles.secondaryButtonText, { color: theme.text, fontFamily: theme.font.body }]}>
-                Repeat last call
-              </Text>
-            </Pressable>
-            <Pressable
               style={[styles.primaryButton, { backgroundColor: theme.accent }]}
               onPress={() => setShowPreviousModal()}
             >
-              <Text style={[styles.primaryButtonText, { color: theme.accentOn, fontFamily: theme.font.body }]}>
+              <Text
+                style={[
+                  styles.primaryButtonText,
+                  { color: theme.accentOn, fontFamily: theme.font.body },
+                ]}
+              >
                 Back to board
               </Text>
             </Pressable>
