@@ -96,32 +96,15 @@ export function calculateGridLayout({
   bottom: number;
 }) {
   const { width, height } = Dimensions.get("window");
-  const totalNumbers = 90;
-  const cellMargin = 2; // tight margin
-  const availableWidth = width - cellMargin * 2;
-  const availableHeight = height - top - bottom - cellMargin * 2;
-
-  // 🔹 Decide number of columns based on landscape height
-  // Because in landscape, height determines how “tall” the grid can be
-  let cols;
-  if (height <= 500) {
-    cols = 11; // very short screens — small phones in landscape
-  } else if (height > 500 && height <= 700) {
-    cols = 10; // most phones in landscape (e.g. Pixel 9 Pro)
-  } else {
-    cols = 9; // large tablets — more space vertically
-  }
-
-  // Compute rows
-  const rows = Math.ceil(totalNumbers / cols);
-
-  // Compute exact cell size to fill available space perfectly
-  const totalHorizontalMargins = cellMargin * 2 * cols;
-  const totalVerticalMargins = cellMargin * 2 * rows;
-  const cellWidth = (availableWidth - totalHorizontalMargins * 2) / cols;
-  const cellHeight = (availableHeight - totalVerticalMargins * 3) / rows;
-  let finalCellSize = Math.min(cellWidth, cellHeight);
-  finalCellSize = cols === 9 ? finalCellSize * 0.9 : finalCellSize * 1.1;
+  const cols = 10;
+  const rows = 9;
+  const cellMargin = 3;
+  // Game screen is a row: timer column (~32%) + remaining width for the board.
+  const availableWidth = width * 0.62;
+  const availableHeight = height - top - bottom;
+  const cellWidth = (availableWidth - cellMargin * (cols - 1)) / cols;
+  const cellHeight = (availableHeight - cellMargin * (rows - 1)) / rows;
+  const finalCellSize = Math.max(12, Math.floor(Math.min(cellWidth, cellHeight)));
 
   useTimerStore.setState({
     gridLayout: { cellSize: finalCellSize, numColumns: cols, cellMargin },

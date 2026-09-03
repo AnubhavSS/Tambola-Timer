@@ -3,9 +3,9 @@
     "name": "Tambola-Timer",
     "slug": "tambola-timer",
     "splash": {
-      "image": "./assets/images/icon.jpeg",
+      "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#140C08"
     },
     "version": "1.0.0",
     "orientation": "landscape",
@@ -43,12 +43,13 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/icon.jpeg",
-          "imageWidth": "100%",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 240,
+          "resizeMode": "contain",
+          "backgroundColor": "#140C08",
           "dark": {
-            "backgroundColor": "#000000"
+            "image": "./assets/images/splash-icon.png",
+            "backgroundColor": "#140C08"
           }
         }
       ],

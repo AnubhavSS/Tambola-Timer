@@ -82,7 +82,7 @@ const Index = () => {
   // Calculate grid layout based on safe area insets
   useEffect(() => {
     calculateGridLayout({ top: insets.top, bottom: insets.bottom });
-  }, []);
+  }, [insets.top, insets.bottom]);
 
   return (
     <View style={{ flex: 1 }}>

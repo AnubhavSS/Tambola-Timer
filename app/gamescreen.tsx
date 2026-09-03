@@ -46,55 +46,55 @@ const Gamescreen = () => {
     };
   }, [pause_play, timerInterval]);
 
-  // Speak the current number using text-to-speech
+  // Speak the current number using text-to-speech.
+  // Single digit: "seven". Two-digit: "four", "five", "forty-five".
   useEffect(() => {
-    if (currentNumber) {
-      const numStr = currentNumber.toString();
+    if (!currentNumber) return;
 
-      // single-digit number
-      if (numStr.length === 1) {
-        Speech.speak(numStr, {
-          language,
-          rate: rate * 10,
-          volume: soundVolume,
-        });
-        return;
-      }
+    const numStr = currentNumber.toString();
+    const voice = { language, rate, volume: soundVolume };
 
-      // two-digit number: speak first, then second, then whole number
-      const firstDigit = numStr[0];
-      const secondDigit = numStr[1];
+    Speech.stop();
 
-      Speech.speak(firstDigit, {
-        language,
-        rate,
-        volume: soundVolume,
+    if (numStr.length === 1) {
+      Speech.speak(numStr, voice);
+    } else {
+      Speech.speak(numStr[0], {
+        ...voice,
         onDone: () => {
-          Speech.speak(secondDigit, {
-            language,
-            rate,
-            volume: soundVolume,
+          Speech.speak(numStr[1], {
+            ...voice,
             onDone: () => {
-              Speech.speak(numStr, {
-                language,
-                rate,
-                volume: soundVolume,
-              });
+              Speech.speak(numStr, voice);
             },
           });
         },
       });
     }
-  }, [currentNumber]);
+
+    return () => {
+      Speech.stop();
+    };
+  }, [currentNumber, language, rate, soundVolume]);
+
+  const isWide = Dimensions.get("window").width > 1000;
 
   return (
     <View style={{ flex: 1 }}>
       <ThemedBackground />
       <PreviousModal theme={theme} />
-      <View style={styles.container}>
-        <View
-          style={[styles.leftPart, { paddingBottom: insets.bottom + hp(1) }]}
-        >
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: Math.max(insets.top, hp(isWide ? 5 : 1.2)),
+            paddingBottom: Math.max(insets.bottom, hp(isWide ? 5 : 1.2)),
+            paddingLeft: insets.left + wp(2),
+            paddingRight: insets.right + wp(2),
+          },
+        ]}
+      >
+        <View style={styles.leftPart}>
           <View style={styles.timerSlot}>
             <Timer theme={theme} />
           </View>
@@ -114,15 +114,9 @@ export default Gamescreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: wp("100%"),
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: wp("6%"),
     gap: wp("1.5%"),
-    ...(Dimensions.get("window").width > 1000 && {
-      paddingVertical: hp("5%"),
-    }),
   },
 
   leftPart: {
@@ -132,7 +126,6 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: wp("3%"),
     gap: hp(2.2),
   },
 
